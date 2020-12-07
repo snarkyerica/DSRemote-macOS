@@ -1214,6 +1214,15 @@ void UI_Mainwindow::get_device_model(const char *str)
     devparms.modelserie = 1;
   }
 
+  if(!strcmp(str, "DS1202Z-E"))
+  {
+    devparms.channel_cnt = 2;
+
+    devparms.bandwidth = 200;
+
+    devparms.modelserie = 1;
+  }
+
   if(devparms.modelserie == 1)
   {
     if(devparms.use_extra_vertdivisions)  devparms.vertdivisions = 10;

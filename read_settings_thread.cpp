@@ -1760,59 +1760,62 @@ void read_settings_thread::run()
 
   devparms->math_decode_threshold[1] = atof(device->buf);
 
-  usleep(TMC_GDS_DELAY);
-
-  if(devparms->modelserie != 1)
+  if(devparms->channel_cnt == 4)
   {
-    if(tmc_write(":BUS1:SPI:SCLK:THR?") != 19)
+    usleep(TMC_GDS_DELAY);
+
+    if(devparms->modelserie != 1)
+    {
+      if(tmc_write(":BUS1:SPI:SCLK:THR?") != 19)
+      {
+        line = __LINE__;
+        goto GDS_OUT_ERROR;
+      }
+    }
+    else
+    {
+      if(tmc_write(":DEC1:THRE:CHAN3?") != 17)
+      {
+        line = __LINE__;
+        goto GDS_OUT_ERROR;
+      }
+    }
+
+    if(tmc_read() < 1)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
     }
-  }
-  else
-  {
-    if(tmc_write(":DEC1:THRE:CHAN3?") != 17)
+
+    devparms->math_decode_threshold[2] = atof(device->buf);
+
+    usleep(TMC_GDS_DELAY);
+
+    if(devparms->modelserie != 1)
+    {
+      if(tmc_write(":BUS1:SPI:SS:THR?") != 17)
+      {
+        line = __LINE__;
+        goto GDS_OUT_ERROR;
+      }
+    }
+    else
+    {
+      if(tmc_write(":DEC1:THRE:CHAN4?") != 17)
+      {
+        line = __LINE__;
+        goto GDS_OUT_ERROR;
+      }
+    }
+
+    if(tmc_read() < 1)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
     }
+
+    devparms->math_decode_threshold[3] = atof(device->buf);
   }
-
-  if(tmc_read() < 1)
-  {
-    line = __LINE__;
-    goto GDS_OUT_ERROR;
-  }
-
-  devparms->math_decode_threshold[2] = atof(device->buf);
-
-  usleep(TMC_GDS_DELAY);
-
-  if(devparms->modelserie != 1)
-  {
-    if(tmc_write(":BUS1:SPI:SS:THR?") != 17)
-    {
-      line = __LINE__;
-      goto GDS_OUT_ERROR;
-    }
-  }
-  else
-  {
-    if(tmc_write(":DEC1:THRE:CHAN4?") != 17)
-    {
-      line = __LINE__;
-      goto GDS_OUT_ERROR;
-    }
-  }
-
-  if(tmc_read() < 1)
-  {
-    line = __LINE__;
-    goto GDS_OUT_ERROR;
-  }
-
-  devparms->math_decode_threshold[3] = atof(device->buf);
 
   if(devparms->modelserie != 1)
   {
