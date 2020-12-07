@@ -11,8 +11,7 @@
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
+* the Free Software Foundation, version 3 of the License.
 *
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -45,8 +44,21 @@ extern "C" {
 
 void remove_trailing_spaces(char *);
 void remove_leading_spaces(char *);
+void trim_spaces(char *);
 void remove_trailing_zeros(char *);
 void convert_trailing_zeros_to_spaces(char *);
+
+/* Inserts a copy of substr into str. The substring is the portion of substr that begins at */
+/* the character position subpos and spans sublen characters (or until the end of substr */
+/* if substr is too short). */
+void str_insert_substr(char *str, int pos, int len, const char *substr, int subpos, int sublen);
+
+/* Replaces the nth occurence of dest_substr in str with src_substr. */
+/* If n = -1, all occurrences will be replaced. */
+/* len is the buffer length, not the string length! */
+/* Returns the number of substrings replaced. */
+int str_replace_substr(char *str, int len, int n, const char *dest_substr, const char *src_substr);
+
 void remove_extension_from_filename(char *);  /* removes extension including the dot */
 int get_filename_from_path(char *dest, const char *src, int size);  /* size is size of destination, returns length of filename */
 int get_directory_from_path(char *dest, const char *src, int size);  /* size is size of destination, returns length of directory */
@@ -56,7 +68,7 @@ void utf8_to_latin1(char *);
 int antoi(const char *, int);
 int atoi_nonlocalized(const char *);
 double atof_nonlocalized(const char *);
-int sprint_number_nonlocalized(char *, double);
+//int sprint_number_nonlocalized(char *, double);
 long long atoll_x(const char *, int);
 void strntolower(char *, int);
 
@@ -67,7 +79,7 @@ char * strtok_r_e(char *, const char *, char **);
 /* if 4th argument is zero, only negative numbers will have the sign '-' character */
 /* if 4th argument is one, the sign '+' or '-' character will always be printed */
 /* returns the amount of characters printed */
-int sprint_int_number_nonlocalized(char *, int, int, int);
+//int sprint_int_number_nonlocalized(char *, int, int, int);
 int sprint_ll_number_nonlocalized(char *, long long, int, int);
 int fprint_int_number_nonlocalized(FILE *, int, int, int);
 int fprint_ll_number_nonlocalized(FILE *, long long, int, int);
@@ -108,7 +120,7 @@ int base64_dec(const void *, void *, int);
  * plus the length of src. While this may seem somewhat confusing,
  * it was done to make truncation detection simple."
  */
-#if defined(__APPLE__) || defined(__MACH__) || defined(__APPLE_CC__) || defined(__FreeBSD__)
+#if defined(__APPLE__) || defined(__MACH__) || defined(__APPLE_CC__) || defined(__FreeBSD__) || defined(__HAIKU__)
 /* nothing here */
 #else
 int strlcpy(char *, const char *, int);

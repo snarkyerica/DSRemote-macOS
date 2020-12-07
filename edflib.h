@@ -48,51 +48,51 @@
 
 
 
-#define EDFLIB_TIME_DIMENSION (10000000LL)
-#define EDFLIB_MAXSIGNALS 640
-#define EDFLIB_MAX_ANNOTATION_LEN 512
+#define EDFLIB_TIME_DIMENSION     (10000000LL)
+#define EDFLIB_MAXSIGNALS                (640)
+#define EDFLIB_MAX_ANNOTATION_LEN        (512)
 
-#define EDFSEEK_SET 0
-#define EDFSEEK_CUR 1
-#define EDFSEEK_END 2
+#define EDFSEEK_SET  (0)
+#define EDFSEEK_CUR  (1)
+#define EDFSEEK_END  (2)
 
 
 
 /* the following defines are used in the member "filetype" of the edf_hdr_struct */
 /* and as return value for the function edfopen_file_readonly() */
-#define EDFLIB_FILETYPE_EDF                  0
-#define EDFLIB_FILETYPE_EDFPLUS              1
-#define EDFLIB_FILETYPE_BDF                  2
-#define EDFLIB_FILETYPE_BDFPLUS              3
-#define EDFLIB_MALLOC_ERROR                 -1
-#define EDFLIB_NO_SUCH_FILE_OR_DIRECTORY    -2
+#define EDFLIB_FILETYPE_EDF                  (0)
+#define EDFLIB_FILETYPE_EDFPLUS              (1)
+#define EDFLIB_FILETYPE_BDF                  (2)
+#define EDFLIB_FILETYPE_BDFPLUS              (3)
+#define EDFLIB_MALLOC_ERROR                 (-1)
+#define EDFLIB_NO_SUCH_FILE_OR_DIRECTORY    (-2)
 
 /* when this error occurs, try to open the file with EDFbrowser,
    it will give you full details about the cause of the error. */
 #define EDFLIB_FILE_CONTAINS_FORMAT_ERRORS  -3
 
-#define EDFLIB_MAXFILES_REACHED             -4
-#define EDFLIB_FILE_READ_ERROR              -5
-#define EDFLIB_FILE_ALREADY_OPENED          -6
-#define EDFLIB_FILETYPE_ERROR               -7
-#define EDFLIB_FILE_WRITE_ERROR             -8
-#define EDFLIB_NUMBER_OF_SIGNALS_INVALID    -9
-#define EDFLIB_FILE_IS_DISCONTINUOUS       -10
-#define EDFLIB_INVALID_READ_ANNOTS_VALUE   -11
+#define EDFLIB_MAXFILES_REACHED             (-4)
+#define EDFLIB_FILE_READ_ERROR              (-5)
+#define EDFLIB_FILE_ALREADY_OPENED          (-6)
+#define EDFLIB_FILETYPE_ERROR               (-7)
+#define EDFLIB_FILE_WRITE_ERROR             (-8)
+#define EDFLIB_NUMBER_OF_SIGNALS_INVALID    (-9)
+#define EDFLIB_FILE_IS_DISCONTINUOUS       (-10)
+#define EDFLIB_INVALID_READ_ANNOTS_VALUE   (-11)
 
 /* values for annotations */
-#define EDFLIB_DO_NOT_READ_ANNOTATIONS 0
-#define EDFLIB_READ_ANNOTATIONS        1
-#define EDFLIB_READ_ALL_ANNOTATIONS    2
+#define EDFLIB_DO_NOT_READ_ANNOTATIONS  (0)
+#define EDFLIB_READ_ANNOTATIONS         (1)
+#define EDFLIB_READ_ALL_ANNOTATIONS     (2)
 
 /* the following defines are possible errors returned by the first sample write action */
-#define EDFLIB_NO_SIGNALS                  -20
-#define EDFLIB_TOO_MANY_SIGNALS            -21
-#define EDFLIB_NO_SAMPLES_IN_RECORD        -22
-#define EDFLIB_DIGMIN_IS_DIGMAX            -23
-#define EDFLIB_DIGMAX_LOWER_THAN_DIGMIN    -24
-#define EDFLIB_PHYSMIN_IS_PHYSMAX          -25
-#define EDFLIB_DATARECORD_SIZE_TOO_BIG     -26
+#define EDFLIB_NO_SIGNALS                  (-20)
+#define EDFLIB_TOO_MANY_SIGNALS            (-21)
+#define EDFLIB_NO_SAMPLES_IN_RECORD        (-22)
+#define EDFLIB_DIGMIN_IS_DIGMAX            (-23)
+#define EDFLIB_DIGMAX_LOWER_THAN_DIGMIN    (-24)
+#define EDFLIB_PHYSMIN_IS_PHYSMAX          (-25)
+#define EDFLIB_DATARECORD_SIZE_TOO_BIG     (-26)
 
 
 
@@ -133,8 +133,10 @@ extern "C" {
  * This is not a concern anymore so the maximum datarecord size now is limited to 10MByte for EDF(+) and 15MByte for BDF(+). This helps to accommodate for higher samplingrates
  * used by modern Analog to Digital Converters.
  *
- * EDF header character encoding: The EDF specification says that only ASCII characters are allowed.
- * EDFlib will automatically convert characters with accents, umlauts, tilde, etc. to their "normal" equivalent without the accent/umlaut/tilde/etc.
+ * EDF header character encoding: The EDF specification says that only (printable) ASCII characters are allowed.
+ * When writing the header info, EDFlib will assume you are using Latin1 encoding and it will automatically convert
+ * characters with accents, umlauts, tilde, etc. to their "normal" equivalent without the accent/umlaut/tilde/etc.
+ * in order to create a valid EDF file.
  *
  * The description/name of an EDF+ annotation on the other hand, is encoded in UTF-8.
  *
@@ -156,7 +158,7 @@ struct edf_param_struct{         /* this structure contains all the relevant EDF
 
 
 struct edf_annotation_struct{                           /* this structure is used for annotations */
-        long long onset;                                /* onset time of the event, expressed in units of 100 nanoSeconds and relative to the starttime in the header */
+        long long onset;                                /* onset time of the event, expressed in units of 100 nanoSeconds and relative to the start of the file */
         char duration[16];                              /* duration time, this is a null-terminated ASCII text-string */
         char annotation[EDFLIB_MAX_ANNOTATION_LEN + 1]; /* description of the event in UTF-8, this is a null terminated string */
        };
@@ -419,7 +421,7 @@ int edf_set_physical_dimension(int handle, int edfsignal, const char *phys_dim);
 /* Sets the physical dimension (unit) of signal edfsignal. ("uV", "BPM", "mA", "Degr.", etc.) */
 /* phys_dim is a pointer to a NULL-terminated ASCII-string containing the physical dimension of the signal edfsignal */
 /* Returns 0 on success, otherwise -1 */
-/* This function is recommanded for every signal when you want to write a file */
+/* This function is recommended for every signal when you want to write a file */
 /* and can be called only after opening a file in writemode and before the first sample write action */
 
 
@@ -427,7 +429,7 @@ int edf_set_startdatetime(int handle, int startdate_year, int startdate_month, i
                                       int starttime_hour, int starttime_minute, int starttime_second);
 
 /* Sets the startdate and starttime. */
-/* year: 1970 - 3000, month: 1 - 12, day: 1 - 31 */
+/* year: 1985 - 2084, month: 1 - 12, day: 1 - 31 */
 /* hour: 0 - 23, minute: 0 - 59, second: 0 - 59 */
 /* If not called, the library will use the system date and time at runtime */
 /* Returns 0 on success, otherwise -1 */
@@ -609,7 +611,7 @@ int edf_blockwrite_digital_samples(int handle, int *buf);
 int edfwrite_annotation_utf8(int handle, long long onset, long long duration, const char *description);
 
 /* writes an annotation/event to the file */
-/* onset is relative to the starttime and startdate of the file */
+/* onset is relative to the start of the file */
 /* onset and duration are in units of 100 microSeconds!     resolution is 0.0001 second! */
 /* for example: 34.071 seconds must be written as 340710 */
 /* if duration is unknown or not applicable: set a negative number (-1) */
@@ -621,7 +623,7 @@ int edfwrite_annotation_utf8(int handle, long long onset, long long duration, co
 int edfwrite_annotation_latin1(int handle, long long onset, long long duration, const char *description);
 
 /* writes an annotation/event to the file */
-/* onset is relative to the starttime and startdate of the file */
+/* onset is relative to the start of the file */
 /* onset and duration are in units of 100 microSeconds!     resolution is 0.0001 second! */
 /* for example: 34.071 seconds must be written as 340710 */
 /* if duration is unknown or not applicable: set a negative number (-1) */
@@ -675,6 +677,16 @@ int edf_set_number_of_annotation_signals(int handle, int annot_signals);
 /* Minimum is 1, maximum is 64 */
 /* Returns 0 on success, otherwise -1 */
 
+
+int edf_set_subsecond_starttime(int handle, int subsecond);
+/* Sets the subsecond starttime expressed in units of 100 nanoSeconds */
+/* Valid range is 0 to 9999999 inclusive. Default is 0 */
+/* This function is optional and can be called only after opening a file in writemode */
+/* and before the first sample write action */
+/* Returns 0 on success, otherwise -1 */
+/* It is strongly recommended to use a maximum resolution of no more than 100 micro-Seconds. */
+/* e.g. use 1234000  to set a starttime offset of 0.1234 seconds (instead of 1234567) */
+/* in other words, leave the last 3 digits at zero */
 
 #ifdef __cplusplus
 } /* extern "C" */

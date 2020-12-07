@@ -11,8 +11,7 @@
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
+* the Free Software Foundation, version 3 of the License.
 *
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -240,6 +239,42 @@ void remove_leading_spaces(char *str)
   {
     str[i - diff] = str[i];
   }
+}
+
+
+/* removes both leading and trailing spaces */
+void trim_spaces(char *str)
+{
+  int i, diff, len;
+
+  len = strlen(str);
+
+  for(i=0; i<len; i++)
+  {
+    if(str[i] != ' ')
+    {
+      break;
+    }
+  }
+
+  if(i)
+  {
+    diff = i;
+
+    for(; i<=len; i++)
+    {
+      str[i - diff] = str[i];
+    }
+  }
+
+  len = strlen(str);
+
+  for(i=(len-1); i>=0; i--)
+  {
+    if(str[i]!=' ')  break;
+  }
+
+  str[i+1] = 0;
 }
 
 
@@ -717,7 +752,7 @@ int fprint_int_number_nonlocalized(FILE *file, int q, int minimum, int sign)
 
     j++;
 
-    q = -q;
+    base = -base;
   }
   else
   {
@@ -789,7 +824,7 @@ int fprint_ll_number_nonlocalized(FILE *file, long long q, int minimum, int sign
 
     j++;
 
-    q = -q;
+    base = -base;
   }
   else
   {
@@ -839,64 +874,64 @@ int fprint_ll_number_nonlocalized(FILE *file, long long q, int minimum, int sign
 /* if sign is zero, only negative numbers will have the sign '-' character */
 /* if sign is one, the sign '+' or '-' character will always be printed */
 /* returns the amount of characters printed */
-int sprint_int_number_nonlocalized(char *str, int q, int minimum, int sign)
-{
-  int flag=0, z, i, j=0, base = 1000000000;
-
-  if(minimum < 0)
-  {
-    minimum = 0;
-  }
-
-  if(minimum > 9)
-  {
-    flag = 1;
-  }
-
-  if(q < 0)
-  {
-    str[j++] = '-';
-
-    q = -q;
-  }
-  else
-  {
-    if(sign)
-    {
-      str[j++] = '+';
-    }
-  }
-
-  for(i=10; i; i--)
-  {
-    if(minimum == i)
-    {
-      flag = 1;
-    }
-
-    z = q / base;
-
-    q %= base;
-
-    if(z || flag)
-    {
-      str[j++] = '0' + z;
-
-      flag = 1;
-    }
-
-    base /= 10;
-  }
-
-  if(!flag)
-  {
-    str[j++] = '0';
-  }
-
-  str[j] = 0;
-
-  return j;
-}
+// int sprint_int_number_nonlocalized(char *str, int q, int minimum, int sign)
+// {
+//   int flag=0, z, i, j=0, base = 1000000000;
+//
+//   if(minimum < 0)
+//   {
+//     minimum = 0;
+//   }
+//
+//   if(minimum > 9)
+//   {
+//     flag = 1;
+//   }
+//
+//   if(q < 0)
+//   {
+//     str[j++] = '-';
+//
+//     q = -q;
+//   }
+//   else
+//   {
+//     if(sign)
+//     {
+//       str[j++] = '+';
+//     }
+//   }
+//
+//   for(i=10; i; i--)
+//   {
+//     if(minimum == i)
+//     {
+//       flag = 1;
+//     }
+//
+//     z = q / base;
+//
+//     q %= base;
+//
+//     if(z || flag)
+//     {
+//       str[j++] = '0' + z;
+//
+//       flag = 1;
+//     }
+//
+//     base /= 10;
+//   }
+//
+//   if(!flag)
+//   {
+//     str[j++] = '0';
+//   }
+//
+//   str[j] = 0;
+//
+//   return j;
+// }
 
 
 /* minimum is the minimum digits that will be printed (minus sign not included), leading zero's will be added if necessary */
@@ -923,7 +958,7 @@ int sprint_ll_number_nonlocalized(char *str, long long q, int minimum, int sign)
   {
     str[j++] = '-';
 
-    q = -q;
+    base = -base;
   }
   else
   {
@@ -965,98 +1000,98 @@ int sprint_ll_number_nonlocalized(char *str, long long q, int minimum, int sign)
 }
 
 
-int sprint_number_nonlocalized(char *str, double nr)
-{
-  int flag=0, z, i, j=0, q, base = 1000000000;
-
-  double var;
-
-  q = (int)nr;
-
-  var = nr - q;
-
-  if(nr < 0.0)
-  {
-    str[j++] = '-';
-
-    if(q < 0)
-    {
-      q = -q;
-    }
-  }
-
-  for(i=10; i; i--)
-  {
-    z = q / base;
-
-    q %= base;
-
-    if(z || flag)
-    {
-      str[j++] = '0' + z;
-
-      flag = 1;
-    }
-
-    base /= 10;
-  }
-
-  if(!flag)
-  {
-    str[j++] = '0';
-  }
-
-  base = 100000000;
-
-  var *= (base * 10);
-
-  q = (int)var;
-
-  if(q < 0)
-  {
-    q = -q;
-  }
-
-  if(!q)
-  {
-    str[j] = 0;
-
-    return j;
-  }
-
-  str[j++] = '.';
-
-  for(i=9; i; i--)
-  {
-    z = q / base;
-
-    q %= base;
-
-    str[j++] = '0' + z;
-
-    base /= 10;
-  }
-
-  str[j] = 0;
-
-  j--;
-
-  for(; j>0; j--)
-  {
-    if(str[j] == '0')
-    {
-      str[j] = 0;
-    }
-    else
-    {
-      j++;
-
-      break;
-    }
-  }
-
-  return j;
-}
+// int sprint_number_nonlocalized(char *str, double nr)
+// {
+//   int flag=0, z, i, j=0, q, base = 1000000000;
+//
+//   double var;
+//
+//   q = (int)nr;
+//
+//   var = nr - q;
+//
+//   if(nr < 0.0)
+//   {
+//     str[j++] = '-';
+//
+//     if(q < 0)
+//     {
+//       q = -q;
+//     }
+//   }
+//
+//   for(i=10; i; i--)
+//   {
+//     z = q / base;
+//
+//     q %= base;
+//
+//     if(z || flag)
+//     {
+//       str[j++] = '0' + z;
+//
+//       flag = 1;
+//     }
+//
+//     base /= 10;
+//   }
+//
+//   if(!flag)
+//   {
+//     str[j++] = '0';
+//   }
+//
+//   base = 100000000;
+//
+//   var *= (base * 10);
+//
+//   q = (int)var;
+//
+//   if(q < 0)
+//   {
+//     q = -q;
+//   }
+//
+//   if(!q)
+//   {
+//     str[j] = 0;
+//
+//     return j;
+//   }
+//
+//   str[j++] = '.';
+//
+//   for(i=9; i; i--)
+//   {
+//     z = q / base;
+//
+//     q %= base;
+//
+//     str[j++] = '0' + z;
+//
+//     base /= 10;
+//   }
+//
+//   str[j] = 0;
+//
+//   j--;
+//
+//   for(; j>0; j--)
+//   {
+//     if(str[j] == '0')
+//     {
+//       str[j] = 0;
+//     }
+//     else
+//     {
+//       j++;
+//
+//       break;
+//     }
+//   }
+//
+//   return j;
+// }
 
 
 double atof_nonlocalized(const char *str)
@@ -2142,7 +2177,7 @@ char * strtok_r_e(char *str, const char *delim, char **saveptr)
  * plus the length of src. While this may seem somewhat confusing,
  * it was done to make truncation detection simple."
  */
-#if defined(__APPLE__) || defined(__MACH__) || defined(__APPLE_CC__) || defined(__FreeBSD__)
+#if defined(__APPLE__) || defined(__MACH__) || defined(__APPLE_CC__) || defined(__FreeBSD__) || defined(__HAIKU__)
 /* nothing here */
 #else
 int strlcpy(char *dst, const char *src, int sz)
@@ -2172,7 +2207,7 @@ int strlcat(char *dst, const char *src, int sz)
 
   sz -= dstlen + 1;
 
-  if(!sz)  return dstlen;
+  if(sz < 1)  return dstlen;
 
   srclen = strlen(src);
 
@@ -2187,7 +2222,109 @@ int strlcat(char *dst, const char *src, int sz)
 #endif
 
 
+void str_insert_substr(char *str, int pos, int len, const char *substr, int subpos, int sublen)
+{
+  int i, slen;
 
+  if((pos >= len) || (pos < 0) || (len < 1) || (subpos >= sublen) || (subpos < 0) || (sublen < 1))  return;
+
+  slen = strlen(str);
+
+  if(pos > slen)  return;
+
+  if(sublen > (signed)strlen(substr))  sublen = strlen(substr);
+
+  for(i=((slen+sublen)-1); i>=(pos + sublen); i--)
+  {
+    if(i < len)  str[i] = str[i-sublen];
+  }
+
+  for(i=0; i<sublen; i++)
+  {
+    if(((pos + i) >= len) || ((subpos + i) >= sublen))  break;
+
+    str[pos + i] = substr[subpos + i];
+  }
+
+  if((slen + sublen) < len)
+  {
+    str[slen + sublen] = 0;
+  }
+  else
+  {
+    str[len-1] = 0;
+  }
+}
+
+
+int str_replace_substr(char *str, int len, int n, const char *dest_substr, const char *src_substr)
+{
+  int i, pos, slen, destlen, srclen, occurrence=0, cnt=0, lendiff;
+
+  slen = strlen(str);
+
+  destlen = strlen(dest_substr);
+
+  srclen = strlen(src_substr);
+
+  lendiff = srclen - destlen;
+
+  for(pos=0; pos<slen; pos++)
+  {
+    if(!strncmp(str + pos, dest_substr, destlen))
+    {
+      if((n == occurrence) || (n == -1))
+      {
+        if(lendiff > 0)
+        {
+          for(i=((slen+lendiff)-1); i>=(pos + lendiff); i--)
+          {
+            if(i < len)  str[i] = str[i-lendiff];
+          }
+        }
+        else if(lendiff < 0)
+          {
+            for(i=(pos + srclen); i<(slen+lendiff); i++)
+            {
+              if(i < len)  str[i] = str[i-lendiff];
+            }
+          }
+
+        for(i=0; i<srclen; i++)
+        {
+          if((pos + i) >= len)  break;
+
+          str[pos + i] = src_substr[i];
+        }
+
+        if((slen + lendiff) < len)
+        {
+          slen += lendiff;
+
+          str[slen] = 0;
+
+          pos += lendiff;
+        }
+        else
+        {
+          str[len-1] = 0;
+
+          slen = len;
+
+          break;
+        }
+
+        cnt++;
+
+        if(n != -1)  break;
+      }
+
+      occurrence++;
+    }
+  }
+
+  return cnt;
+}
 
 
 
