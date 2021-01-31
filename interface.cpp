@@ -3411,7 +3411,7 @@ void UI_Mainwindow::autoButtonClicked()
 
   tmc_write(":AUT");
 
-  get_device_settings(7);
+  get_device_settings(12);
 
   scrn_timer->start(devparms.screentimerival);
 }
