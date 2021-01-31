@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2014 - 2020 Teunis van Beelen
+* Copyright (C) 2014 - 2021 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *

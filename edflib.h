@@ -1,7 +1,7 @@
 /*
 *****************************************************************************
 *
-* Copyright (c) 2009 - 2020 Teunis van Beelen
+* Copyright (c) 2009 - 2021 Teunis van Beelen
 * All rights reserved.
 *
 * Email: teuniz@protonmail.com
@@ -356,6 +356,8 @@ int edf_set_samplefrequency(int handle, int edfsignal, int samplefrequency);
 int edf_set_physical_maximum(int handle, int edfsignal, double phys_max);
 
 /* Sets the maximum physical value of signal edfsignal. (the value of the input of the ADC when the output equals the value of "digital maximum") */
+/* It is the highest value that the equipment is able to record. It does not necessarily mean the signal recorded reaches this level */
+/* Must be un-equal to physical minimum */
 /* Returns 0 on success, otherwise -1 */
 /* This function is required for every signal and can be called only after opening a */
 /* file in writemode and before the first sample write action */
@@ -364,7 +366,9 @@ int edf_set_physical_maximum(int handle, int edfsignal, double phys_max);
 int edf_set_physical_minimum(int handle, int edfsignal, double phys_min);
 
 /* Sets the minimum physical value of signal edfsignal. (the value of the input of the ADC when the output equals the value of "digital minimum") */
+/* It is the lowest value that the equipment is able to record. It does not necessarily mean the signal recorded reaches this level */
 /* Usually this will be (-(phys_max)) */
+/* Must be un-equal to physical maximum */
 /* Returns 0 on success, otherwise -1 */
 /* This function is required for every signal and can be called only after opening a */
 /* file in writemode and before the first sample write action */
@@ -373,7 +377,9 @@ int edf_set_physical_minimum(int handle, int edfsignal, double phys_min);
 int edf_set_digital_maximum(int handle, int edfsignal, int dig_max);
 
 /* Sets the maximum digital value of signal edfsignal. The maximum value is 32767 for EDF+ and 8388607 for BDF+ */
+/* It is the highest value that the equipment is able to record. It does not necessarily mean the signal recorded reaches this level */
 /* Usually it's the extreme output of the ADC */
+/* Must be higher than digital minimum */
 /* Returns 0 on success, otherwise -1 */
 /* This function is required for every signal and can be called only after opening a file in writemode */
 /* and before the first sample write action */
@@ -382,8 +388,10 @@ int edf_set_digital_maximum(int handle, int edfsignal, int dig_max);
 int edf_set_digital_minimum(int handle, int edfsignal, int dig_min);
 
 /* Sets the minimum digital value of signal edfsignal. The minimum value is -32768 for EDF+ and -8388608 for BDF+ */
+/* It is the lowest value that the equipment is able to record. It does not necessarily mean the signal recorded reaches this level */
 /* Usually it's the extreme output of the ADC */
 /* Usually this will be (-(dig_max + 1)) */
+/* Must be lower than digital maximum */
 /* Returns 0 on success, otherwise -1 */
 /* This function is required for every signal and can be called only after opening a file in writemode */
 /* and before the first sample write action */
@@ -435,6 +443,7 @@ int edf_set_startdatetime(int handle, int startdate_year, int startdate_month, i
 /* Returns 0 on success, otherwise -1 */
 /* This function is optional and can be called only after opening a file in writemode */
 /* and before the first sample write action */
+/* Note: for anonymization purposes, the consensus is to use 1985-01-01 00:00:00 for the startdate and starttime. */
 
 
 int edf_set_patientname(int handle, const char *patientname);
