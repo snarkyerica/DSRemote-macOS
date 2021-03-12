@@ -42,6 +42,7 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <netdb.h>
+#include <errno.h>
 
 #include "tmc_dev.h"
 #include "utils.h"
@@ -79,8 +80,18 @@ static int tmclan_send(const char *str)
   {
     if(FD_ISSET(sockfd, &temp_tcp_fds))  /* check if our file descriptor is set */
     {
-      return send(sockfd, str, len, MSG_NOSIGNAL);
+      len = send(sockfd, str, len, MSG_NOSIGNAL);
+      if(len == -1)
+      {
+        perror("send()");
+      }
+
+      return len;
     }
+  }
+  else
+  {
+    perror("select()");
   }
 
   return -1;
