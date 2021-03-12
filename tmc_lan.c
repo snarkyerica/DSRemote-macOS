@@ -71,8 +71,13 @@ static int tmclan_send(const char *str)
 {
   int len;
 
-  fd_set temp_tcp_fds = tcp_fds;  /* because select overwrites the arguments */
-  struct timeval temp_timeout = timeout;
+  fd_set temp_tcp_fds;
+
+  struct timeval temp_timeout;
+
+  memcpy(&temp_tcp_fds, &tcp_fds, sizeof(fd_set));  /* because select overwrites the arguments */
+
+  memcpy(&temp_timeout, &timeout, sizeof(struct timeval));
 
   len = strlen(str);
 
@@ -83,7 +88,7 @@ static int tmclan_send(const char *str)
       len = send(sockfd, str, len, MSG_NOSIGNAL);
       if(len == -1)
       {
-        perror("send()");
+        perror("*** error *** send()");
       }
 
       return len;
@@ -91,7 +96,7 @@ static int tmclan_send(const char *str)
   }
   else
   {
-    perror("select()");
+    perror("*** error *** select()");
   }
 
   return -1;
@@ -100,8 +105,13 @@ static int tmclan_send(const char *str)
 
 static int tmclan_recv(char *buf, int sz)
 {
-  fd_set temp_tcp_fds = tcp_fds;  /* because select overwrites the arguments */
-  struct timeval temp_timeout = timeout;
+  fd_set temp_tcp_fds;
+
+  struct timeval temp_timeout;
+
+  memcpy(&temp_tcp_fds, &tcp_fds, sizeof(fd_set));  /* because select overwrites the arguments */
+
+  memcpy(&temp_timeout, &timeout, sizeof(struct timeval));
 
   if(select(sockfd + 1, &temp_tcp_fds, 0, 0, &temp_timeout) != -1)
   {
