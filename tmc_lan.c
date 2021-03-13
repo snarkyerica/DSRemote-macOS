@@ -50,7 +50,9 @@
 
 
 
-#define TMC_LAN_TIMEOUT   5000
+#define TMC_LAN_TIMEOUT   (5)
+
+#define TMC_TCP_PORT   (5555)
 
 #define MAX_CMD_LEN     (255)
 #define MAX_RESP_LEN    (1024 * 1024 * 2)
@@ -187,9 +189,8 @@ struct tmcdev * tmclan_open(const char *host_or_ip)
   FD_ZERO(&tcp_fds);         /* clear file descriptor pool     */
   FD_SET(sockfd, &tcp_fds);  /* add our filedescriptor to pool */
 
-  timeout.tv_sec = 0;
-  timeout.tv_usec = TMC_LAN_TIMEOUT;
-  timeout.tv_usec *= 1000;
+  timeout.tv_sec = TMC_LAN_TIMEOUT;
+  timeout.tv_usec = 0;
 
   memset(&inet_address, 0, sizeof(struct sockaddr_in));
 
@@ -198,7 +199,7 @@ struct tmcdev * tmclan_open(const char *host_or_ip)
   {
     return NULL;
   }
-  inet_address.sin_port = htons(5555);
+  inet_address.sin_port = htons(TMC_TCP_PORT);
 
   if(connect(sockfd, (struct sockaddr *) &inet_address, sizeof(struct sockaddr)) < 0)
   {
