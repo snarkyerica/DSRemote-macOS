@@ -142,7 +142,7 @@ int get_directory_from_path(char *dest, const char *src, int sz)
     return 0;
   }
 
-  for(i=len-1; i>=0; i--)
+  for(i=len-1; i>0; i--)
   {
     if((src[i]=='/') || (src[i]=='\\'))
     {
@@ -150,15 +150,11 @@ int get_directory_from_path(char *dest, const char *src, int sz)
     }
   }
 
-  strncpy(dest, src, sz);
+  strlcpy(dest, src, sz);
 
   if(i < sz)
   {
     dest[i] = 0;
-  }
-  else
-  {
-    dest[sz-1] = 0;
   }
 
   return strlen(dest);
@@ -711,6 +707,105 @@ void latin1_to_ascii(char *str, int len)
       default  : str[i] = ' ';  break;
     }
   }
+}
+
+
+int utf8_set_byte_len(char *str, int new_len)
+{
+  int i, len;
+
+  if(str == NULL)  return 0;
+
+  if(new_len < 1)  return 0;
+
+  len = strlen(str);
+
+  if(new_len >= len)  return len;
+
+  for(i=new_len-1; i>=0; i--)
+  {
+    if((((unsigned char *)str)[i] & 0b11000000) != 0b10000000)
+    {
+      str[i] = 0;
+
+      return i;
+    }
+  }
+
+  str[0] = 0;
+
+  return 0;
+}
+
+
+int utf8_set_char_len(char *str, int new_len)
+{
+  int i, j=0;
+
+  if(str == NULL)  return 0;
+
+  if(new_len < 0)  return 0;
+
+  for(i=0; ; i++)
+  {
+    if(str[i] == 0)  break;
+
+    if((((unsigned char *)str)[i] & 0b11000000) != 0b10000000)
+    {
+      if(j == new_len)
+      {
+        str[i] = 0;
+
+        return j;
+      }
+
+      j++;
+    }
+  }
+
+  return j;
+}
+
+
+int utf8_strlen(const char *str)
+{
+  int i, j=0;
+
+  if(str == NULL)  return 0;
+
+  for(i=0; ; i++)
+  {
+    if(str[i] == 0)  break;
+
+    if((((unsigned char *)str)[i] & 0b11000000) != 0b10000000)
+    {
+      j++;
+    }
+  }
+
+  return j;
+}
+
+
+int utf8_idx(const char *str, int idx)
+{
+  int i, j=0;
+
+  if(str == NULL)  return 0;
+
+  for(i=0; ; i++)
+  {
+    if(str[i] == 0)  break;
+
+    if((((unsigned char *)str)[i] & 0b11000000) != 0b10000000)
+    {
+      if(j == idx)  return i;
+
+      j++;
+    }
+  }
+
+  return 0;
 }
 
 
@@ -2326,6 +2421,39 @@ int str_replace_substr(char *str, int len, int n, const char *dest_substr, const
   return cnt;
 }
 
+
+int convert_non_ascii_to_hex(char *dest,  const char *src, int destlen)
+{
+  int i, len, newlen=0;
+
+  len = strlen(src);
+
+  for(i=0; i<len; i++)
+  {
+    if((src[i] < 32) || (src[i] > 126))
+    {
+      if((newlen + 7) >= destlen)
+      {
+        break;
+      }
+
+      newlen += snprintf(dest + newlen, 7, "<0x%.2x>", (unsigned char)src[i]);
+    }
+    else
+    {
+      if((newlen + 2) >= destlen)
+      {
+        break;
+      }
+
+      dest[newlen++] = src[i];
+    }
+  }
+
+  dest[newlen] = 0;
+
+  return newlen;
+}
 
 
 
