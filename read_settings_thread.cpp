@@ -934,8 +934,21 @@ void read_settings_thread::run()
               }
               else if((device->buf[0] == 'D') && (isdigit(device->buf[1])))
                 {
-                  //FIXME (not supportde yet!) devparms->triggeredgesource = 7 + atoi(device->buf + 1);
+                  //FIXME (not supported yet!)
+                  // devparms->triggeredgesource = 7 + atoi(device->buf + 1);
                   devparms->triggeredgesource = 0;
+
+                  usleep(TMC_GDS_DELAY);
+
+                  strlcpy(str, ":TRIG:EDG:SOUR CHAN1", 512);
+
+                  if(tmc_write(str) != 20)
+                  {
+                    line = __LINE__;
+                    goto GDS_OUT_ERROR;
+                  }
+
+                  usleep(TMC_GDS_DELAY);
                 }
                 else
                 {
