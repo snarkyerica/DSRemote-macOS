@@ -30,12 +30,49 @@
 
 
 
+void UI_Mainwindow::save_app_screenshot()
+{
+  char opath[MAX_PATHLEN]="";
+
+  if(device == NULL)
+  {
+    return;
+  }
+
+  scrn_timer->stop();
+
+  scrn_thread->wait();
+
+  if(recent_savedir[0]!=0)
+  {
+    strlcpy(opath, recent_savedir, MAX_PATHLEN);
+    strlcat(opath, "/", MAX_PATHLEN);
+  }
+  strlcat(opath, "screenshot.png", MAX_PATHLEN);
+
+  strlcpy(opath, QFileDialog::getSaveFileName(this, "Save file", opath, "PNG files (*.png *.PNG)").toLocal8Bit().data(), MAX_PATHLEN);
+
+  if(!strcmp(opath, ""))
+  {
+    scrn_timer->start(devparms.screentimerival);
+
+    return;
+  }
+
+  get_directory_from_path(recent_savedir, opath, MAX_PATHLEN);
+
+  waveForm->print_to_image(opath);
+
+  scrn_timer->start(devparms.screentimerival);
+}
+
+
 void UI_Mainwindow::save_screenshot()
 {
   int n;
 
-  char str[512],
-       opath[MAX_PATHLEN];
+  char str[512]="",
+       opath[MAX_PATHLEN]="";
 
   QPainter painter;
 

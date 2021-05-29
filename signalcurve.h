@@ -42,6 +42,7 @@
 #include <QStringList>
 #include <QFont>
 #include <QTimer>
+#include <QMutex>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -89,6 +90,7 @@ public:
   void setTrigLineVisible(void);
   void setDeviceParameters(struct device_settings *);
   bool hasMoveEvent(void);
+  int print_to_image(const char *);
 
 signals: void chan1Clicked();
          void chan2Clicked();
@@ -101,6 +103,8 @@ private slots:
   void trig_stat_timer_handler();
 
 private:
+
+  QMutex paint_mutex;
 
   QColor SignalColor[MAX_CHNS],
          BackgroundColor,

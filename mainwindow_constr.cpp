@@ -534,6 +534,10 @@ UI_Mainwindow::UI_Mainwindow()
   connect(save_screenshot_act, SIGNAL(triggered()), this, SLOT(save_screenshot()));
   addAction(save_screenshot_act);
 
+  save_app_screenshot_act = new QAction(this);
+  connect(save_app_screenshot_act, SIGNAL(triggered()), this, SLOT(save_app_screenshot()));
+  addAction(save_app_screenshot_act);
+
   DPRwidget->setEnabled(false);
 
   recent_dir[0] = 0;

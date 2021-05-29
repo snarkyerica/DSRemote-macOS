@@ -1504,12 +1504,15 @@ void UI_Mainwindow::cursButtonClicked()
 
 void UI_Mainwindow::saveButtonClicked()
 {
-  QMenu menu;
+  QMenu menu, *save_menu;
 
-  menu.addAction("Save screen waveform", this, SLOT(save_screen_waveform()));
-  menu.addAction("Wave Inspector",       this, SLOT(get_deep_memory_waveform()));
-  menu.addAction("Save screenshot",      this, SLOT(save_screenshot()));
-  menu.addAction("Factory",              this, SLOT(set_to_factory()));
+  menu.addAction("Save screen waveform",  this, SLOT(save_screen_waveform()));
+  menu.addAction("Wave Inspector",        this, SLOT(get_deep_memory_waveform()));
+  save_menu = menu.addMenu("Save screenshot");
+  menu.addAction("Factory",               this, SLOT(set_to_factory()));
+
+  save_menu->addAction("from scope",       this, SLOT(save_screenshot()));
+  save_menu->addAction("from application", this, SLOT(save_app_screenshot()));
 
   menu.exec(saveButton->mapToGlobal(QPoint(0,0)));
 }

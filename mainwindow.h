@@ -233,7 +233,8 @@ private:
           *toggle_fft_act,
           *center_trigger_act,
           *center_position_act,
-          *save_screenshot_act;
+          *save_screenshot_act,
+          *save_app_screenshot_act;
 
   struct tmcdev *device;
 
@@ -272,6 +273,7 @@ private slots:
   void save_screen_waveform();
   void get_deep_memory_waveform();
   void save_screenshot();
+  void save_app_screenshot();
 
   void adjDialChanged(int);
   void trigAdjustDialChanged(int);

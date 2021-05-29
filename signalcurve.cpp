@@ -139,21 +139,52 @@ void SignalCurve::setUpdatesEnabled(bool enabled)
 
 void SignalCurve::paintEvent(QPaintEvent *)
 {
-  if(updates_enabled == true)
-  {
-    QPainter paint(this);
+  if(updates_enabled == false)  return;
+
+  QPainter paint(this);
 #if QT_VERSION >= 0x050000
-    paint.setRenderHint(QPainter::Qt4CompatiblePainting, true);
+  paint.setRenderHint(QPainter::Qt4CompatiblePainting, true);
 #endif
 
-    smallfont.setPixelSize(devparms->font_size);
+  smallfont.setPixelSize(devparms->font_size);
 
-    paint.setFont(smallfont);
+  paint.setFont(smallfont);
 
-    drawWidget(&paint, width(), height());
+  drawWidget(&paint, width(), height());
 
-    old_w = width();
-  }
+  old_w = width();
+}
+
+
+int SignalCurve::print_to_image(const char *path)
+{
+  int w_p, h_p;
+
+  if(updates_enabled == false)  return -1;
+
+  if(path == NULL)  return -2;
+
+  if(strlen(path) < 1)  return -3;
+
+  w_p = width();
+  h_p = height();
+
+  QPixmap pixmap(w_p, h_p);
+
+  QPainter paint(&pixmap);
+#if QT_VERSION >= 0x050000
+  paint.setRenderHint(QPainter::Qt4CompatiblePainting, true);
+#endif
+
+  smallfont.setPixelSize(devparms->font_size);
+
+  paint.setFont(smallfont);
+
+  drawWidget(&paint, w_p, h_p);
+
+  pixmap.save(path, "PNG", 90);
+
+  return 0;
 }
 
 
@@ -175,6 +206,8 @@ void SignalCurve::drawWidget(QPainter *painter, int curve_w, int curve_h)
     return;
   }
 
+  paint_mutex.lock();
+
   curve_w_backup = curve_w;
 
   curve_h_backup = curve_h;
@@ -185,6 +218,7 @@ void SignalCurve::drawWidget(QPainter *painter, int curve_w, int curve_h)
 
   if((curve_w < ((bordersize * 2) + 5)) || (curve_h < ((bordersize * 2) + 5)))
   {
+    paint_mutex.unlock();
     return;
   }
 
@@ -652,6 +686,8 @@ void SignalCurve::drawWidget(QPainter *painter, int curve_w, int curve_h)
 //
 //     cpu_time_used = 0;
 //   }
+
+  paint_mutex.unlock();
 }
 
 
