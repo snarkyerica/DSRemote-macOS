@@ -906,49 +906,54 @@ void read_settings_thread::run()
 
   if(!strcmp(device->buf, "CHAN1"))
   {
-    devparms->triggeredgesource = 0;
+    devparms->triggeredgesource = TRIG_SRC_CHAN1;
   }
   else if(!strcmp(device->buf, "CHAN2"))
     {
-      devparms->triggeredgesource = 1;
+      devparms->triggeredgesource = TRIG_SRC_CHAN2;
     }
     else if(!strcmp(device->buf, "CHAN3"))
       {
-        devparms->triggeredgesource = 2;
+        devparms->triggeredgesource = TRIG_SRC_CHAN3;
       }
       else if(!strcmp(device->buf, "CHAN4"))
         {
-          devparms->triggeredgesource = 3;
+          devparms->triggeredgesource = TRIG_SRC_CHAN4;
         }
         else if(!strcmp(device->buf, "EXT"))
           {
-            devparms->triggeredgesource = 4;
+            devparms->triggeredgesource = TRIG_SRC_EXT;
           }
           else if(!strcmp(device->buf, "EXT5"))
             {
-              devparms->triggeredgesource = 5;
+              devparms->triggeredgesource = TRIG_SRC_EXT;
             }  // DS1000Z: "AC", DS6000: "ACL" !!
             else if((!strcmp(device->buf, "AC")) || (!strcmp(device->buf, "ACL")))
               {
-                devparms->triggeredgesource = 6;
+                devparms->triggeredgesource = TRIG_SRC_ACL;
               }
               else if((device->buf[0] == 'D') && (isdigit(device->buf[1])))
                 {
-                  //FIXME (not supported yet!)
-                  // devparms->triggeredgesource = 7 + atoi(device->buf + 1);
-                  devparms->triggeredgesource = 0;
-
-                  usleep(TMC_GDS_DELAY);
-
-                  strlcpy(str, ":TRIG:EDG:SOUR CHAN1", 512);
-
-                  if(tmc_write(str) != 20)
+                  if(devparms->la_channel_cnt > 0)
                   {
-                    line = __LINE__;
-                    goto GDS_OUT_ERROR;
+                    devparms->triggeredgesource = 7 + atoi(device->buf + 1);
                   }
+                  else
+                  {
+                    devparms->triggeredgesource = 0;
 
-                  usleep(TMC_GDS_DELAY);
+                    usleep(TMC_GDS_DELAY);
+
+                    strlcpy(str, ":TRIG:EDG:SOUR CHAN1", 512);
+
+                    if(tmc_write(str) != 20)
+                    {
+                      line = __LINE__;
+                      goto GDS_OUT_ERROR;
+                    }
+
+                    usleep(TMC_GDS_DELAY);
+                  }
                 }
                 else
                 {

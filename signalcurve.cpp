@@ -522,7 +522,7 @@ void SignalCurve::drawWidget(QPainter *painter, int curve_w, int curve_h)
   }
   else
   {
-    if(devparms->triggeredgesource < 4)
+    if(devparms->triggeredgesource <= TRIG_SRC_CHAN4)
     {
       trig_level_arrow_pos = (curve_h / 2) - ((devparms->triggeredgelevel[devparms->triggeredgesource] + devparms->chanoffset[devparms->triggeredgesource]) / ((devparms->chanscale[devparms->triggeredgesource] * devparms->vertdivisions) / curve_h));
 
@@ -1184,36 +1184,35 @@ void SignalCurve::drawTopLabels(QPainter *painter)
 
   painter->drawText(670, 20, "T");
 
-  convert_to_metric_suffix(str, devparms->triggeredgelevel[devparms->triggeredgesource], 2, 512);
-
-  strlcat(str, devparms->chanunitstr[devparms->chanunit[devparms->triggeredgesource]], 512);
-
-  if(devparms->triggeredgesource < 4)
+  if(devparms->triggeredgesource <= TRIG_SRC_CHAN4)
   {
+    convert_to_metric_suffix(str, devparms->triggeredgelevel[devparms->triggeredgesource], 2, 512);
+
+    strlcat(str, devparms->chanunitstr[devparms->chanunit[devparms->triggeredgesource]], 512);
+
     painter->setPen(SignalColor[devparms->triggeredgesource]);
+
+    painter->drawText(735, 5, 85, 20, Qt::AlignCenter, str);
   }
   else
   {
     switch(devparms->triggeredgesource)
     {
-      case 4:
-      case 5: painter->setPen(Qt::green);
-              break;
-      case 6: painter->setPen(QColor(255, 64, 0));
-              break;
+      case TRIG_SRC_EXT:
+      case TRIG_SRC_EXT5: painter->setPen(Qt::green);
+                          break;
+      case TRIG_SRC_ACL:  painter->setPen(QColor(255, 64, 0));
+                          break;
+      default:            painter->setPen(Qt::white);
+                          break;
     }
-  }
-
-  if(devparms->triggeredgesource != 6)
-  {
-    painter->drawText(735, 5, 85, 20, Qt::AlignCenter, str);
   }
 
   path = QPainterPath();
 
   path.addRoundedRect(725, 7, 15, 15, 3, 3);
 
-  if(devparms->triggeredgesource < 4)
+  if(devparms->triggeredgesource <= TRIG_SRC_CHAN4)
   {
     painter->fillPath(path, SignalColor[devparms->triggeredgesource]);
 
@@ -1223,13 +1222,16 @@ void SignalCurve::drawTopLabels(QPainter *painter)
   {
     switch(devparms->triggeredgesource)
     {
-      case 4:
-      case 5: painter->fillPath(path, Qt::green);
-              strlcpy(str, "E", 512);
-              break;
-      case 6: painter->fillPath(path, QColor(255, 64, 0));
-              strlcpy(str, "AC", 512);
-              break;
+      case TRIG_SRC_EXT:
+      case TRIG_SRC_EXT5: painter->fillPath(path, Qt::green);
+                          strlcpy(str, "E", 512);
+                          break;
+      case TRIG_SRC_ACL:  painter->fillPath(path, QColor(255, 64, 0));
+                          strlcpy(str, "AC", 512);
+                          break;
+      default:            painter->fillPath(path, Qt::white);
+                          snprintf(str, 512, "D%i", devparms->triggeredgesource - TRIG_SRC_LA_D0);
+                          break;
     }
   }
 
@@ -1755,12 +1757,15 @@ void SignalCurve::mousePressEvent(QMouseEvent *press_event)
             ((trig_level_arrow_pos < 0) && (m_x >= w) && (m_x < (w + 18)) && (m_y >= 0) && (m_y < 22)) ||
             ((trig_level_arrow_pos > h) && (m_x >= w) && (m_x < (w + 18)) && (m_y <= h) && (m_y > (h - 22))))
       {
-        trig_level_arrow_moving = 1;
-        use_move_events = 1;
-        trig_line_visible = 1;
-        setMouseTracking(true);
-        mouse_old_x = m_x;
-        mouse_old_y = m_y;
+        if(devparms->triggeredgesource <= TRIG_SRC_CHAN4)
+        {
+          trig_level_arrow_moving = 1;
+          use_move_events = 1;
+          trig_line_visible = 1;
+          setMouseTracking(true);
+          mouse_old_x = m_x;
+          mouse_old_y = m_y;
+        }
       }
       else
       {
@@ -1946,7 +1951,7 @@ void SignalCurve::mouseReleaseEvent(QMouseEvent *release_event)
   }
   else if(trig_level_arrow_moving)
     {
-      if(devparms->triggeredgesource > 3)
+      if(devparms->triggeredgesource > TRIG_SRC_CHAN4)
       {
         return;
       }

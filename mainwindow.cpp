@@ -1128,6 +1128,8 @@ void UI_Mainwindow::get_device_model(const char *str)
   {
     devparms.channel_cnt = 4;
 
+    devparms.la_channel_cnt = 16;
+
     devparms.bandwidth = 70;
 
     devparms.modelserie = 1;
@@ -1136,6 +1138,8 @@ void UI_Mainwindow::get_device_model(const char *str)
   if(!strcmp(str, "DS1074Z-S Plus"))
   {
     devparms.channel_cnt = 4;
+
+    devparms.la_channel_cnt = 16;
 
     devparms.bandwidth = 70;
 
@@ -1164,6 +1168,8 @@ void UI_Mainwindow::get_device_model(const char *str)
   {
     devparms.channel_cnt = 4;
 
+    devparms.la_channel_cnt = 16;
+
     devparms.bandwidth = 100;
 
     devparms.modelserie = 1;
@@ -1172,6 +1178,8 @@ void UI_Mainwindow::get_device_model(const char *str)
   if(!strcmp(str, "DS1104Z-S Plus"))
   {
     devparms.channel_cnt = 4;
+
+    devparms.la_channel_cnt = 16;
 
     devparms.bandwidth = 100;
 

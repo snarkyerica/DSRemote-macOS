@@ -3745,6 +3745,25 @@ void UI_Mainwindow::trigMenuButtonClicked()
     }
   }
   submenusource.addAction("AC Line", this, SLOT(trigger_source_acl()));
+  if(devparms.la_channel_cnt == 16)
+  {
+    submenusource.addAction("D0", this, SLOT(trigger_source_la_d0()));
+    submenusource.addAction("D1", this, SLOT(trigger_source_la_d1()));
+    submenusource.addAction("D2", this, SLOT(trigger_source_la_d2()));
+    submenusource.addAction("D3", this, SLOT(trigger_source_la_d3()));
+    submenusource.addAction("D4", this, SLOT(trigger_source_la_d4()));
+    submenusource.addAction("D5", this, SLOT(trigger_source_la_d5()));
+    submenusource.addAction("D6", this, SLOT(trigger_source_la_d6()));
+    submenusource.addAction("D7", this, SLOT(trigger_source_la_d7()));
+    submenusource.addAction("D8", this, SLOT(trigger_source_la_d8()));
+    submenusource.addAction("D9", this, SLOT(trigger_source_la_d9()));
+    submenusource.addAction("D10", this, SLOT(trigger_source_la_d10()));
+    submenusource.addAction("D11", this, SLOT(trigger_source_la_d11()));
+    submenusource.addAction("D12", this, SLOT(trigger_source_la_d12()));
+    submenusource.addAction("D13", this, SLOT(trigger_source_la_d13()));
+    submenusource.addAction("D14", this, SLOT(trigger_source_la_d14()));
+    submenusource.addAction("D15", this, SLOT(trigger_source_la_d15()));
+  }
   actionList = submenusource.actions();
   if(devparms.modelserie == 6 || devparms.modelserie == 4)
   {
@@ -3793,6 +3812,15 @@ void UI_Mainwindow::trigMenuButtonClicked()
     {
       actionList[4]->setCheckable(true);
       actionList[4]->setChecked(true);
+    }
+
+    if(devparms.la_channel_cnt > 0)
+    {
+      if(devparms.triggeredgesource >= TRIG_SRC_LA_D0)
+      {
+        actionList[devparms.triggeredgesource - 2]->setCheckable(true);
+        actionList[devparms.triggeredgesource - 2]->setChecked(true);
+      }
     }
   }
   menu.addMenu(&submenusource);
@@ -3917,6 +3945,85 @@ void UI_Mainwindow::trigger_source_acl()
   {
     set_cue_cmd(":TRIG:EDG:SOUR AC");
   }
+}
+
+
+void UI_Mainwindow::trigger_source_la_d0(void)
+{
+  trigger_source_la(0);
+}
+void UI_Mainwindow::trigger_source_la_d1(void)
+{
+  trigger_source_la(1);
+}
+void UI_Mainwindow::trigger_source_la_d2(void)
+{
+  trigger_source_la(2);
+}
+void UI_Mainwindow::trigger_source_la_d3(void)
+{
+  trigger_source_la(3);
+}
+void UI_Mainwindow::trigger_source_la_d4(void)
+{
+  trigger_source_la(4);
+}
+void UI_Mainwindow::trigger_source_la_d5(void)
+{
+  trigger_source_la(5);
+}
+void UI_Mainwindow::trigger_source_la_d6(void)
+{
+  trigger_source_la(6);
+}
+void UI_Mainwindow::trigger_source_la_d7(void)
+{
+  trigger_source_la(7);
+}
+void UI_Mainwindow::trigger_source_la_d8(void)
+{
+  trigger_source_la(8);
+}
+void UI_Mainwindow::trigger_source_la_d9(void)
+{
+  trigger_source_la(9);
+}
+void UI_Mainwindow::trigger_source_la_d10(void)
+{
+  trigger_source_la(10);
+}
+void UI_Mainwindow::trigger_source_la_d11(void)
+{
+  trigger_source_la(11);
+}
+void UI_Mainwindow::trigger_source_la_d12(void)
+{
+  trigger_source_la(12);
+}
+void UI_Mainwindow::trigger_source_la_d13(void)
+{
+  trigger_source_la(13);
+}
+void UI_Mainwindow::trigger_source_la_d14(void)
+{
+  trigger_source_la(14);
+}
+void UI_Mainwindow::trigger_source_la_d15(void)
+{
+  trigger_source_la(15);
+}
+
+void UI_Mainwindow::trigger_source_la(int src)
+{
+  char str[128]="";
+
+  devparms.triggeredgesource = TRIG_SRC_LA_D0 + src;
+
+  snprintf(str, 512, "Trigger source D%i", src);
+  statusLabel->setText(str);
+
+  snprintf(str, 512, ":TRIG:EDG:SOUR D%i", src);
+  set_cue_cmd(str);
 }
 
 

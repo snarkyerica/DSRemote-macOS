@@ -35,64 +35,90 @@
 
 
 #define PROGRAM_NAME          "DSRemote"
-#define PROGRAM_VERSION       "0.37_2105291436"
+#define PROGRAM_VERSION       "0.37_2105291739"
 
-#define MAX_PATHLEN            1024
+#define MAX_PATHLEN            (1024)
 
-#define MAX_CHNS                  4
+#define MAX_CHNS                  (4)
 
-#define ADJDIAL_TIMER_IVAL_1   4000
-#define ADJDIAL_TIMER_IVAL_2   2000
+#define ADJDIAL_TIMER_IVAL_1   (4000)
+#define ADJDIAL_TIMER_IVAL_2   (2000)
 
-#define SCRN_SHOT_BMP_SZ    1152054
+#define SCRN_SHOT_BMP_SZ    (1152054)
 
 #define WAVFRM_MAX_BUFSZ  (1024 * 1024 * 2)
 
-#define FFT_MAX_BUFSZ          4096
+#define FFT_MAX_BUFSZ          (4096)
 
-#define ADJ_DIAL_FUNC_NONE        0
-#define ADJ_DIAL_FUNC_HOLDOFF     1
-#define ADJ_DIAL_FUNC_ACQ_AVG     2
+#define ADJ_DIAL_FUNC_NONE        (0)
+#define ADJ_DIAL_FUNC_HOLDOFF     (1)
+#define ADJ_DIAL_FUNC_ACQ_AVG     (2)
 
-#define NAV_DIAL_FUNC_NONE        0
-#define NAV_DIAL_FUNC_HOLDOFF     1
+#define NAV_DIAL_FUNC_NONE        (0)
+#define NAV_DIAL_FUNC_HOLDOFF     (1)
 
-#define LABEL_TIMER_IVAL       1500
+#define LABEL_TIMER_IVAL       (1500)
 
-#define LABEL_ACTIVE_NONE         0
-#define LABEL_ACTIVE_CHAN1        1
-#define LABEL_ACTIVE_CHAN2        2
-#define LABEL_ACTIVE_CHAN3        3
-#define LABEL_ACTIVE_CHAN4        4
-#define LABEL_ACTIVE_TRIG         5
-#define LABEL_ACTIVE_FFT          6
+#define LABEL_ACTIVE_NONE         (0)
+#define LABEL_ACTIVE_CHAN1        (1)
+#define LABEL_ACTIVE_CHAN2        (2)
+#define LABEL_ACTIVE_CHAN3        (3)
+#define LABEL_ACTIVE_CHAN4        (4)
+#define LABEL_ACTIVE_TRIG         (5)
+#define LABEL_ACTIVE_FFT          (6)
 
-#define TMC_GDS_DELAY         10000
+#define TMC_GDS_DELAY         (10000)
 
-#define TMC_CMD_CUE_SZ         1024
+#define TMC_CMD_CUE_SZ         (1024)
 
-#define TMC_THRD_RESULT_NONE      0
-#define TMC_THRD_RESULT_SCRN      1
-#define TMC_THRD_RESULT_CMD       2
+#define TMC_THRD_RESULT_NONE      (0)
+#define TMC_THRD_RESULT_SCRN      (1)
+#define TMC_THRD_RESULT_CMD       (2)
 
-#define TMC_THRD_JOB_NONE         0
-#define TMC_THRD_JOB_TRIGEDGELEV  1
-#define TMC_THRD_JOB_TIMDELAY     2
-#define TMC_THRD_JOB_FFTHZDIV     3
+#define TMC_THRD_JOB_NONE         (0)
+#define TMC_THRD_JOB_TRIGEDGELEV  (1)
+#define TMC_THRD_JOB_TIMDELAY     (2)
+#define TMC_THRD_JOB_FFTHZDIV     (3)
 
-#define TMC_DIAL_TIMER_DELAY    300
+#define TMC_DIAL_TIMER_DELAY    (300)
 
-#define DECODE_MODE_TAB_PAR       0
-#define DECODE_MODE_TAB_UART      1
-#define DECODE_MODE_TAB_SPI       2
-#define DECODE_MODE_TAB_I2C       3
+#define DECODE_MODE_TAB_PAR       (0)
+#define DECODE_MODE_TAB_UART      (1)
+#define DECODE_MODE_TAB_SPI       (2)
+#define DECODE_MODE_TAB_I2C       (3)
 
-#define DECODE_MODE_PAR           0
-#define DECODE_MODE_UART          1
-#define DECODE_MODE_SPI           2
-#define DECODE_MODE_I2C           3
+#define DECODE_MODE_PAR           (0)
+#define DECODE_MODE_UART          (1)
+#define DECODE_MODE_SPI           (2)
+#define DECODE_MODE_I2C           (3)
 
-#define DECODE_MAX_CHARS        512
+#define DECODE_MAX_CHARS        (512)
+
+#define TRIG_SRC_CHAN1            (0)
+#define TRIG_SRC_CHAN2            (1)
+#define TRIG_SRC_CHAN3            (2)
+#define TRIG_SRC_CHAN4            (3)
+#define TRIG_SRC_EXT              (4)
+#define TRIG_SRC_EXT5             (5)
+#define TRIG_SRC_ACL              (6)
+#define TRIG_SRC_LA_D0            (7)
+#define TRIG_SRC_LA_D1            (8)
+#define TRIG_SRC_LA_D2            (9)
+#define TRIG_SRC_LA_D3           (10)
+#define TRIG_SRC_LA_D4           (11)
+#define TRIG_SRC_LA_D5           (12)
+#define TRIG_SRC_LA_D6           (13)
+#define TRIG_SRC_LA_D7           (14)
+#define TRIG_SRC_LA_D8           (15)
+#define TRIG_SRC_LA_D9           (16)
+#define TRIG_SRC_LA_D10          (17)
+#define TRIG_SRC_LA_D11          (18)
+#define TRIG_SRC_LA_D12          (19)
+#define TRIG_SRC_LA_D13          (20)
+#define TRIG_SRC_LA_D14          (21)
+#define TRIG_SRC_LA_D15          (22)
+
+#define MAX_TRIG_SRCS            (23)
 
 
 
@@ -130,6 +156,7 @@ struct device_settings
 
   int channel_cnt;              // Device has 2 or 4 channels
   int bandwidth;                // Bandwidth in MHz
+  int la_channel_cnt;           // Device has 0 or 16 logic analyzer channels
 
   int chanbwlimit[MAX_CHNS];    // 20, 250 or 0MHz (off)
   int chancoupling[MAX_CHNS];   // 0=GND, 1=DC, 2=AC
@@ -160,7 +187,7 @@ struct device_settings
   int timebasexy2display;       // XY mode for channel 3 & 4,  1=on, 0=off
 
   int triggercoupling;          // 0=AC, 1=DC, 2=LFReject, 3=HFReject
-  double triggeredgelevel[7];   // Trigger level
+  double triggeredgelevel[MAX_TRIG_SRCS]; // Trigger level
   int triggeredgeslope;         // 0=POS, 1=NEG, 2= RFAL
   int triggeredgesource;        // 0=chan1, 1=chan2, 2=chan3, 3=chan4, 4=ext, 5=ext5, 6=acl, 7=D0, 8=D1, ... ,21=D14, 22=D15
   double triggerholdoff;        // min. is 16nSec or 100nSec depends on series
