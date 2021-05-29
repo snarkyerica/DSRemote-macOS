@@ -384,7 +384,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TIM:OFFS?") != 10)
+  strlcpy(str, ":TIM:OFFS?", 512);
+
+  if(tmc_write(str) != 10)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -400,7 +402,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TIM:SCAL?") != 10)
+  strlcpy(str, ":TIM:SCAL?", 512);
+
+  if(tmc_write(str) != 10)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -416,7 +420,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TIM:DEL:ENAB?") != 14)
+  strlcpy(str, ":TIM:DEL:ENAB?", 512);
+
+  if(tmc_write(str) != 14)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -444,7 +450,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TIM:DEL:OFFS?") != 14)
+  strlcpy(str, ":TIM:DEL:OFFS?", 512);
+
+  if(tmc_write(str) != 14)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -460,7 +468,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TIM:DEL:SCAL?") != 14)
+  strlcpy(str, ":TIM:DEL:SCAL?", 512);
+
+  if(tmc_write(str) != 14)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -478,7 +488,9 @@ void read_settings_thread::run()
   {
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":TIM:HREF:MODE?") != 15)
+    strlcpy(str, ":TIM:HREF:MODE?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -510,7 +522,9 @@ void read_settings_thread::run()
 
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":TIM:HREF:POS?") != 14)
+    strlcpy(str, ":TIM:HREF:POS?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -527,7 +541,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TIM:MODE?") != 10)
+  strlcpy(str, ":TIM:MODE?", 512);
+
+  if(tmc_write(str) != 10)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -561,7 +577,9 @@ void read_settings_thread::run()
   {
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":TIM:VERN?") != 10)
+    strlcpy(str, ":TIM:VERN?", 512);
+
+    if(tmc_write(str) != 10)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -592,7 +610,9 @@ void read_settings_thread::run()
   {
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":TIM:XY1:DISP?") != 14)
+    strlcpy(str, ":TIM:XY1:DISP?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -620,7 +640,9 @@ void read_settings_thread::run()
 
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":TIM:XY2:DISP?") != 14)
+    strlcpy(str, ":TIM:XY2:DISP?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -649,7 +671,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TRIG:COUP?") != 11)
+  strlcpy(str, ":TRIG:COUP?", 512);
+
+  if(tmc_write(str) != 11)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -685,7 +709,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TRIG:SWE?") != 10)
+  strlcpy(str, ":TRIG:SWE?", 512);
+
+  if(tmc_write(str) != 10)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -717,7 +743,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TRIG:MODE?") != 11)
+  strlcpy(str, ":TRIG:MODE?", 512);
+
+  if(tmc_write(str) != 11)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -777,7 +805,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TRIG:STAT?") != 11)
+  strlcpy(str, ":TRIG:STAT?", 512);
+
+  if(tmc_write(str) != 11)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -821,7 +851,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TRIG:EDG:SLOP?") != 15)
+  strlcpy(str, ":TRIG:EDG:SLOP?", 512);
+
+  if(tmc_write(str) != 15)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -853,7 +885,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TRIG:EDG:SOUR?") != 15)
+  strlcpy(str, ":TRIG:EDG:SOUR?", 512);
+
+  if(tmc_write(str) != 15)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -893,11 +927,15 @@ void read_settings_thread::run()
               {
                 devparms->triggeredgesource = 6;
               }
-              else
-              {
-                line = __LINE__;
-                goto GDS_OUT_ERROR;
-              }
+              else if((device->buf[0] == 'D') && (isdigit(device->buf[1])))
+                {
+                  devparms->triggeredgesource = 7 + atoi(device->buf + 1);
+                }
+                else
+                {
+                  line = __LINE__;
+                  goto GDS_OUT_ERROR;
+                }
 
   for(chn=0; chn<devparms->channel_cnt; chn++)
   {
@@ -913,7 +951,9 @@ void read_settings_thread::run()
 
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":TRIG:EDG:LEV?") != 14)
+    strlcpy(str, ":TRIG:EDG:LEV?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -945,7 +985,9 @@ void read_settings_thread::run()
   {
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":TRIG:EDG:SOUR EXT") != 18)
+    strlcpy(str, ":TRIG:EDG:SOUR EXT", 512);
+
+    if(tmc_write(str) != 18)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -956,7 +998,9 @@ void read_settings_thread::run()
   {
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":TRIG:EDG:SOUR EXT5") != 19)
+    strlcpy(str, ":TRIG:EDG:SOUR EXT5", 512);
+
+    if(tmc_write(str) != 19)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -967,7 +1011,9 @@ void read_settings_thread::run()
   {
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":TRIG:EDG:SOUR AC") != 17)
+    strlcpy(str, ":TRIG:EDG:SOUR AC", 512);
+
+    if(tmc_write(str) != 17)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -976,7 +1022,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":TRIG:HOLD?") != 11)
+  strlcpy(str, ":TRIG:HOLD?", 512);
+
+  if(tmc_write(str) != 11)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -992,7 +1040,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":ACQ:SRAT?") != 10)
+  strlcpy(str, ":ACQ:SRAT?", 512);
+
+  if(tmc_write(str) != 10)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -1008,7 +1058,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":DISP:GRID?") != 11)
+  strlcpy(str, ":DISP:GRID?", 512);
+
+  if(tmc_write(str) != 11)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -1040,7 +1092,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":MEAS:COUN:SOUR?") != 16)
+  strlcpy(str, ":MEAS:COUN:SOUR?", 512);
+
+  if(tmc_write(str) != 16)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -1080,7 +1134,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":DISP:TYPE?") != 11)
+  strlcpy(str, ":DISP:TYPE?", 512);
+
+  if(tmc_write(str) != 11)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -1108,7 +1164,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":ACQ:TYPE?") != 10)
+  strlcpy(str, ":ACQ:TYPE?", 512);
+
+  if(tmc_write(str) != 10)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -1144,7 +1202,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":ACQ:AVER?") != 10)
+  strlcpy(str, ":ACQ:AVER?", 512);
+
+  if(tmc_write(str) != 10)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -1160,7 +1220,9 @@ void read_settings_thread::run()
 
   usleep(TMC_GDS_DELAY);
 
-  if(tmc_write(":DISP:GRAD:TIME?") != 16)
+  strlcpy(str, ":DISP:GRAD:TIME?", 512);
+
+  if(tmc_write(str) != 16)
   {
     line = __LINE__;
     goto GDS_OUT_ERROR;
@@ -1214,7 +1276,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":CALC:FFT:SPL?") != 14)
+    strlcpy(str, ":CALC:FFT:SPL?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1222,7 +1286,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":MATH:FFT:SPL?") != 14)
+    strlcpy(str, ":MATH:FFT:SPL?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1241,7 +1307,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":CALC:MODE?") != 11)
+    strlcpy(str, ":CALC:MODE?", 512);
+
+    if(tmc_write(str) != 11)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1264,7 +1332,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":MATH:DISP?") != 11)
+    strlcpy(str, ":MATH:DISP?", 512);
+
+    if(tmc_write(str) != 11)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1282,7 +1352,9 @@ void read_settings_thread::run()
     {
       usleep(TMC_GDS_DELAY);
 
-      if(tmc_write(":MATH:OPER?") != 11)
+      strlcpy(str, ":MATH:OPER?", 512);
+
+      if(tmc_write(str) != 11)
       {
         line = __LINE__;
         goto GDS_OUT_ERROR;
@@ -1309,7 +1381,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":CALC:FFT:VSM?") != 14)
+    strlcpy(str, ":CALC:FFT:VSM?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1317,7 +1391,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":MATH:FFT:UNIT?") != 15)
+    strlcpy(str, ":MATH:FFT:UNIT?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1351,7 +1427,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":CALC:FFT:SOUR?") != 15)
+    strlcpy(str, ":CALC:FFT:SOUR?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1359,7 +1437,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":MATH:FFT:SOUR?") != 15)
+    strlcpy(str, ":MATH:FFT:SOUR?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1399,7 +1479,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":CALC:FFT:HSP?") != 14)
+    strlcpy(str, ":CALC:FFT:HSP?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1413,7 +1495,9 @@ void read_settings_thread::run()
 
     devparms->math_fft_hscale = atof(device->buf);
 
-//     if(tmc_write(":CALC:FFT:HSC?") != 14)
+//     strlcpy(str, ":CALC:FFT:HSC?", 512);
+//
+//     if(tmc_write(str) != 14)
 //     {
 //       line = __LINE__;
 //       goto GDS_OUT_ERROR;
@@ -1441,7 +1525,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":MATH:FFT:HSC?") != 14)
+    strlcpy(str, ":MATH:FFT:HSC?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1460,7 +1546,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":CALC:FFT:HCEN?") != 15)
+    strlcpy(str, ":CALC:FFT:HCEN?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1468,7 +1556,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":MATH:FFT:HCEN?") != 15)
+    strlcpy(str, ":MATH:FFT:HCEN?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1487,7 +1577,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":CALC:FFT:VOFF?") != 15)
+    strlcpy(str, ":CALC:FFT:VOFF?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1503,7 +1595,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":MATH:OFFS?") != 11)
+    strlcpy(str, ":MATH:OFFS?", 512);
+
+    if(tmc_write(str) != 11)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1522,7 +1616,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":CALC:FFT:VSC?") != 14)
+    strlcpy(str, ":CALC:FFT:VSC?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1545,7 +1641,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":MATH:SCAL?") != 11)
+    strlcpy(str, ":MATH:SCAL?", 512);
+
+    if(tmc_write(str) != 11)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1564,7 +1662,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:MODE?") != 11)
+    strlcpy(str, ":BUS1:MODE?", 512);
+
+    if(tmc_write(str) != 11)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1572,7 +1672,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:MODE?") != 11)
+    strlcpy(str, ":DEC1:MODE?", 512);
+
+    if(tmc_write(str) != 11)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1610,7 +1712,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:DISP?") != 11)
+    strlcpy(str, ":BUS1:DISP?", 512);
+
+    if(tmc_write(str) != 11)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1618,7 +1722,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:DISP?") != 11)
+    strlcpy(str, ":DEC1:DISP?", 512);
+
+    if(tmc_write(str) != 11)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1637,7 +1743,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:FORM?") != 11)
+    strlcpy(str, ":BUS1:FORM?", 512);
+
+    if(tmc_write(str) != 11)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1645,7 +1753,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:FORM?") != 11)
+    strlcpy(str, ":DEC1:FORM?", 512);
+
+    if(tmc_write(str) != 11)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1683,7 +1793,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:OFFS?") != 15)
+    strlcpy(str, ":BUS1:SPI:OFFS?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1691,7 +1803,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:POS?") != 10)
+    strlcpy(str, ":DEC1:POS?", 512);
+
+    if(tmc_write(str) != 10)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1710,7 +1824,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:MISO:THR?") != 19)
+    strlcpy(str, ":BUS1:SPI:MISO:THR?", 512);
+
+    if(tmc_write(str) != 19)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1718,7 +1834,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:THRE:CHAN1?") != 17)
+    strlcpy(str, ":DEC1:THRE:CHAN1?", 512);
+
+    if(tmc_write(str) != 17)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1737,7 +1855,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:MOSI:THR?") != 19)
+    strlcpy(str, ":BUS1:SPI:MOSI:THR?", 512);
+
+    if(tmc_write(str) != 19)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1745,7 +1865,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:THRE:CHAN2?") != 17)
+    strlcpy(str, ":DEC1:THRE:CHAN2?", 512);
+
+    if(tmc_write(str) != 17)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1766,7 +1888,9 @@ void read_settings_thread::run()
 
     if(devparms->modelserie != 1)
     {
-      if(tmc_write(":BUS1:SPI:SCLK:THR?") != 19)
+      strlcpy(str, ":BUS1:SPI:SCLK:THR?", 512);
+
+      if(tmc_write(str) != 19)
       {
         line = __LINE__;
         goto GDS_OUT_ERROR;
@@ -1774,7 +1898,9 @@ void read_settings_thread::run()
     }
     else
     {
-      if(tmc_write(":DEC1:THRE:CHAN3?") != 17)
+      strlcpy(str, ":DEC1:THRE:CHAN3?", 512);
+
+      if(tmc_write(str) != 17)
       {
         line = __LINE__;
         goto GDS_OUT_ERROR;
@@ -1793,7 +1919,9 @@ void read_settings_thread::run()
 
     if(devparms->modelserie != 1)
     {
-      if(tmc_write(":BUS1:SPI:SS:THR?") != 17)
+      strlcpy(str, ":BUS1:SPI:SS:THR?", 512);
+
+      if(tmc_write(str) != 17)
       {
         line = __LINE__;
         goto GDS_OUT_ERROR;
@@ -1801,7 +1929,9 @@ void read_settings_thread::run()
     }
     else
     {
-      if(tmc_write(":DEC1:THRE:CHAN4?") != 17)
+      strlcpy(str, ":DEC1:THRE:CHAN4?", 512);
+
+      if(tmc_write(str) != 17)
       {
         line = __LINE__;
         goto GDS_OUT_ERROR;
@@ -1821,7 +1951,9 @@ void read_settings_thread::run()
   {
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":BUS1:RS232:TTHR?") != 17)
+    strlcpy(str, ":BUS1:RS232:TTHR?", 512);
+
+    if(tmc_write(str) != 17)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1838,7 +1970,9 @@ void read_settings_thread::run()
 
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":BUS1:RS232:RTHR?") != 17)
+    strlcpy(str, ":BUS1:RS232:RTHR?", 512);
+
+    if(tmc_write(str) != 17)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1858,7 +1992,9 @@ void read_settings_thread::run()
   {
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":DEC1:THRE:AUTO?") != 16)
+    strlcpy(str, ":DEC1:THRE:AUTO?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1877,7 +2013,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:RS232:RX?") != 15)
+    strlcpy(str, ":BUS1:RS232:RX?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1885,7 +2023,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:UART:RX?") != 14)
+    strlcpy(str, ":DEC1:UART:RX?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1927,7 +2067,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:RS232:TX?") != 15)
+    strlcpy(str, ":BUS1:RS232:TX?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1935,7 +2077,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:UART:TX?") != 14)
+    strlcpy(str, ":DEC1:UART:TX?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1977,7 +2121,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:RS232:POL?") != 16)
+    strlcpy(str, ":BUS1:RS232:POL?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -1985,7 +2131,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:UART:POL?") != 15)
+    strlcpy(str, ":DEC1:UART:POL?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2011,7 +2159,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:RS232:END?") != 16)
+    strlcpy(str, ":BUS1:RS232:END?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2019,7 +2169,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:UART:END?") != 15)
+    strlcpy(str, ":DEC1:UART:END?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2045,7 +2197,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:RS232:BAUD?") != 17)
+    strlcpy(str, ":BUS1:RS232:BAUD?", 512);
+
+    if(tmc_write(str) != 17)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2053,7 +2207,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:UART:BAUD?") != 16)
+    strlcpy(str, ":DEC1:UART:BAUD?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2073,7 +2229,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:RS232:DBIT?") != 17)
+    strlcpy(str, ":BUS1:RS232:DBIT?", 512);
+
+    if(tmc_write(str) != 17)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2081,7 +2239,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:UART:WIDT?") != 16)
+    strlcpy(str, ":DEC1:UART:WIDT?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2100,7 +2260,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:RS232:SBIT?") != 17)
+    strlcpy(str, ":BUS1:RS232:SBIT?", 512);
+
+    if(tmc_write(str) != 17)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2108,7 +2270,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:UART:STOP?") != 16)
+    strlcpy(str, ":DEC1:UART:STOP?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2138,7 +2302,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:RS232:PAR?") != 16)
+    strlcpy(str, ":BUS1:RS232:PAR?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2146,7 +2312,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:UART:PAR?") != 15)
+    strlcpy(str, ":DEC1:UART:PAR?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2180,7 +2348,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:SCLK:SOUR?") != 20)
+    strlcpy(str, ":BUS1:SPI:SCLK:SOUR?", 512);
+
+    if(tmc_write(str) != 20)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2188,7 +2358,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:SPI:CLK?") != 14)
+    strlcpy(str, ":DEC1:SPI:CLK?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2222,7 +2394,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:MISO:SOUR?") != 20)
+    strlcpy(str, ":BUS1:SPI:MISO:SOUR?", 512);
+
+    if(tmc_write(str) != 20)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2230,7 +2404,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:SPI:MISO?") != 15)
+    strlcpy(str, ":DEC1:SPI:MISO?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2272,7 +2448,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:MOSI:SOUR?") != 20)
+    strlcpy(str, ":BUS1:SPI:MOSI:SOUR?", 512);
+
+    if(tmc_write(str) != 20)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2280,7 +2458,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:SPI:MOSI?") != 15)
+    strlcpy(str, ":DEC1:SPI:MOSI?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2322,7 +2502,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:SS:SOUR?") != 18)
+    strlcpy(str, ":BUS1:SPI:SS:SOUR?", 512);
+
+    if(tmc_write(str) != 18)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2330,7 +2512,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:SPI:CS?") != 13)
+    strlcpy(str, ":DEC1:SPI:CS?", 512);
+
+    if(tmc_write(str) != 13)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2372,7 +2556,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:SS:POL?") != 17)
+    strlcpy(str, ":BUS1:SPI:SS:POL?", 512);
+
+    if(tmc_write(str) != 17)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2380,7 +2566,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:SPI:SEL?") != 14)
+    strlcpy(str, ":DEC1:SPI:SEL?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2414,7 +2602,9 @@ void read_settings_thread::run()
   {
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":DEC1:SPI:MODE?") != 15)
+    strlcpy(str, ":DEC1:SPI:MODE?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2440,7 +2630,9 @@ void read_settings_thread::run()
   {
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":DEC1:SPI:TIM?") != 14)
+    strlcpy(str, ":DEC1:SPI:TIM?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2459,7 +2651,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:MOSI:POL?") != 19)
+    strlcpy(str, ":BUS1:SPI:MOSI:POL?", 512);
+
+    if(tmc_write(str) != 19)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2467,7 +2661,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:SPI:POL?") != 14)
+    strlcpy(str, ":DEC1:SPI:POL?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2493,7 +2689,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:SCLK:SLOP?") != 20)
+    strlcpy(str, ":BUS1:SPI:SCLK:SLOP?", 512);
+
+    if(tmc_write(str) != 20)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2501,7 +2699,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:SPI:EDGE?") != 15)
+    strlcpy(str, ":DEC1:SPI:EDGE?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2535,7 +2735,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:DBIT?") != 15)
+    strlcpy(str, ":BUS1:SPI:DBIT?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2543,7 +2745,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:SPI:WIDT?") != 15)
+    strlcpy(str, ":DEC1:SPI:WIDT?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2562,7 +2766,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie != 1)
   {
-    if(tmc_write(":BUS1:SPI:END?") != 14)
+    strlcpy(str, ":BUS1:SPI:END?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2570,7 +2776,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":DEC1:SPI:END?") != 14)
+    strlcpy(str, ":DEC1:SPI:END?", 512);
+
+    if(tmc_write(str) != 14)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2596,7 +2804,9 @@ void read_settings_thread::run()
 
   if(devparms->modelserie == 1)
   {
-    if(tmc_write(":FUNC:WREC:ENAB?") != 16)
+    strlcpy(str, ":FUNC:WREC:ENAB?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2624,7 +2834,9 @@ void read_settings_thread::run()
   }
   else
   {
-    if(tmc_write(":FUNC:WRM?") != 10)
+    strlcpy(str, ":FUNC:WRM?", 512);
+
+    if(tmc_write(str) != 10)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2659,7 +2871,9 @@ void read_settings_thread::run()
   {
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":FUNC:WREC:FEND?") != 16)
+    strlcpy(str, ":FUNC:WREC:FEND?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2675,7 +2889,9 @@ void read_settings_thread::run()
 
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":FUNC:WREC:FMAX?") != 16)
+    strlcpy(str, ":FUNC:WREC:FMAX?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2691,7 +2907,9 @@ void read_settings_thread::run()
 
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":FUNC:WREC:FINT?") != 16)
+    strlcpy(str, ":FUNC:WREC:FINT?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2707,7 +2925,9 @@ void read_settings_thread::run()
 
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":FUNC:WREP:FST?") != 15)
+    strlcpy(str, ":FUNC:WREP:FST?", 512);
+
+    if(tmc_write(str) != 15)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2723,7 +2943,9 @@ void read_settings_thread::run()
 
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":FUNC:WREP:FEND?") != 16)
+    strlcpy(str, ":FUNC:WREP:FEND?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2739,7 +2961,9 @@ void read_settings_thread::run()
 
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":FUNC:WREP:FMAX?") != 16)
+    strlcpy(str, ":FUNC:WREP:FMAX?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2755,7 +2979,9 @@ void read_settings_thread::run()
 
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":FUNC:WREP:FINT?") != 16)
+    strlcpy(str, ":FUNC:WREP:FINT?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;
@@ -2771,7 +2997,9 @@ void read_settings_thread::run()
 
     usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(":FUNC:WREP:FCUR?") != 16)
+    strlcpy(str, ":FUNC:WREP:FCUR?", 512);
+
+    if(tmc_write(str) != 16)
     {
       line = __LINE__;
       goto GDS_OUT_ERROR;

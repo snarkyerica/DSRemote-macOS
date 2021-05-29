@@ -35,7 +35,7 @@
 
 
 #define PROGRAM_NAME          "DSRemote"
-#define PROGRAM_VERSION       "0.37_2104061935"
+#define PROGRAM_VERSION       "0.37_2105291013"
 
 #define MAX_PATHLEN            1024
 
@@ -162,7 +162,7 @@ struct device_settings
   int triggercoupling;          // 0=AC, 1=DC, 2=LFReject, 3=HFReject
   double triggeredgelevel[7];   // Trigger level
   int triggeredgeslope;         // 0=POS, 1=NEG, 2= RFAL
-  int triggeredgesource;        // 0=chan1, 1=chan2, 2=chan3, 3=chan4, 4=ext, 5=ext5, 6=acl
+  int triggeredgesource;        // 0=chan1, 1=chan2, 2=chan3, 3=chan4, 4=ext, 5=ext5, 6=acl, 7=D0, 8=D1, ... ,21=D14, 22=D15
   double triggerholdoff;        // min. is 16nSec or 100nSec depends on series
   int triggermode;              // 0=edge, 1=pulse, 2=slope, 3=video, 4=pattern, 5=rs232,
                                 // 6=i2c, 7=spi, 8=can, 9=usb
