@@ -79,6 +79,8 @@ void read_settings_thread::run()
 
   char str[512]="";
 
+  struct timespec rqtp;
+
   err_num = -1;
 
   if(device == NULL) return;
@@ -89,7 +91,10 @@ void read_settings_thread::run()
 
   if(delay > 0)
   {
-    sleep(delay);
+    rqtp.tv_nsec = 0;
+    rqtp.tv_sec = delay;
+
+    while(nanosleep(&rqtp, &rqtp)) {};
   }
 
   for(chn=0; chn<devparms->channel_cnt; chn++)
