@@ -934,7 +934,8 @@ void read_settings_thread::run()
               }
               else if((device->buf[0] == 'D') && (isdigit(device->buf[1])))
                 {
-                  devparms->triggeredgesource = 7 + atoi(device->buf + 1);
+                  //FIXME (not supportde yet!) devparms->triggeredgesource = 7 + atoi(device->buf + 1);
+                  devparms->triggeredgesource = 0;
                 }
                 else
                 {
