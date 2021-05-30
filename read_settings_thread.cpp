@@ -961,6 +961,7 @@ void read_settings_thread::run()
                   goto GDS_OUT_ERROR;
                 }
 
+  /* temporary change the trigger source so that we can retrieve the respective trigger levels */
   for(chn=0; chn<devparms->channel_cnt; chn++)
   {
     snprintf(str, 512, ":TRIG:EDG:SOUR CHAN%i", chn + 1);
@@ -992,7 +993,8 @@ void read_settings_thread::run()
     devparms->triggeredgelevel[chn] = atof(device->buf);
   }
 
-  if(devparms->triggeredgesource < 4)
+  /* now set the trigger source back to what it was before */
+  if(devparms->triggeredgesource <= TRIG_SRC_CHAN4)
   {
     snprintf(str, 512, ":TRIG:EDG:SOUR CHAN%i", devparms->triggeredgesource + 1);
 
@@ -1004,45 +1006,54 @@ void read_settings_thread::run()
       goto GDS_OUT_ERROR;
     }
   }
-
-  if(devparms->triggeredgesource== 4)
-  {
-    usleep(TMC_GDS_DELAY);
-
-    strlcpy(str, ":TRIG:EDG:SOUR EXT", 512);
-
-    if(tmc_write(str) != 18)
+  else if(devparms->triggeredgesource == TRIG_SRC_EXT)
     {
-      line = __LINE__;
-      goto GDS_OUT_ERROR;
+      usleep(TMC_GDS_DELAY);
+
+      strlcpy(str, ":TRIG:EDG:SOUR EXT", 512);
+
+      if(tmc_write(str) != 18)
+      {
+        line = __LINE__;
+        goto GDS_OUT_ERROR;
+      }
     }
-  }
+    else if(devparms->triggeredgesource == TRIG_SRC_EXT5)
+      {
+        usleep(TMC_GDS_DELAY);
 
-  if(devparms->triggeredgesource== 5)
-  {
-    usleep(TMC_GDS_DELAY);
+        strlcpy(str, ":TRIG:EDG:SOUR EXT5", 512);
 
-    strlcpy(str, ":TRIG:EDG:SOUR EXT5", 512);
+        if(tmc_write(str) != 19)
+        {
+          line = __LINE__;
+          goto GDS_OUT_ERROR;
+        }
+      }
+      else if(devparms->triggeredgesource == TRIG_SRC_ACL)
+        {
+          usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(str) != 19)
-    {
-      line = __LINE__;
-      goto GDS_OUT_ERROR;
-    }
-  }
+          strlcpy(str, ":TRIG:EDG:SOUR AC", 512);
 
-  if(devparms->triggeredgesource== 6)
-  {
-    usleep(TMC_GDS_DELAY);
+          if(tmc_write(str) != 17)
+          {
+            line = __LINE__;
+            goto GDS_OUT_ERROR;
+          }
+        }
+        else if((devparms->triggeredgesource >= TRIG_SRC_LA_D0) && (devparms->la_channel_cnt > 0))
+          {
+            snprintf(str, 512, ":TRIG:EDG:SOUR D%i", devparms->triggeredgesource - TRIG_SRC_LA_D0);
 
-    strlcpy(str, ":TRIG:EDG:SOUR AC", 512);
+            usleep(TMC_GDS_DELAY);
 
-    if(tmc_write(str) != 17)
-    {
-      line = __LINE__;
-      goto GDS_OUT_ERROR;
-    }
-  }
+            if((tmc_write(str) != 17) && (tmc_write(str) != 18))
+            {
+              line = __LINE__;
+              goto GDS_OUT_ERROR;
+            }
+          }
 
   usleep(TMC_GDS_DELAY);
 
