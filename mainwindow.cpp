@@ -851,7 +851,7 @@ double UI_Mainwindow::get_stepsize_divide_by_1000(double val)
     exp++;
   }
 
-  val = exp10(exp - 2);
+  val = pow(10, exp - 2);
 
   if((val < 1e-13) && (val > -1e-13))
   {
