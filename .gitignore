@@ -1,0 +1,16 @@
+
+objects/
+
+Makefile
+
+qrc_images.cpp
+
+.qmake.stash
+
+.DS_Store
+
+moc/
+
+.vscode/
+
+dsremote.app/
