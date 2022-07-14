@@ -1,10 +1,37 @@
+# DSRemote-macOS
+
+This is a quick and dirty patched version of [DSRemote](https://teuniz.net/DSRemote/) to allow building on macOS without USB support.
+
+## Compiling on macOS without USB support:
+
+Install [Homebrew](https://brew.sh).
+
+brew install make git qt@5
+
+brew link qt@5
+
+git clone https://github.com/snarkyerica/DSRemote-macOS.git
+
+cd DSRemote-macOS
+
+qmake
+
+make -j8 (replace 8 with the number of threads you'd like to use)
+
+Copy the resulting .app file into your Applications folder, right click and Open.
+
+
+
+Original README follows.
+
+
 
 # DSRemote
+
 Operate your Rigol oscilloscope from your Linux desktop.
 ========================================================
 
 webpage and info: https://www.teuniz.net/DSRemote/
-
 
 Compiling and installing on Ubuntu Linux and derivatives:
 ---------------------------------------------------------
@@ -17,7 +44,6 @@ qmake
 make -j4
 sudo make install
 dsremote
-
 
 For USB connection setup use the following commands:
 ----------------------------------------------------
@@ -34,7 +60,6 @@ a bug in the scopes' firmware that Rigol does not want to fix.)
  Read also the file readme_usbtcm_driver.txt
  and the file notes.txt.
 
-
 Supported devices
 ---------------
 
@@ -50,16 +75,9 @@ Not tested yet:
 * Wave Inspector
 * serial decoding.
 
-
-
 Note:
 This is a private project made available to the public. No pullrequests!
 If you believe you found a bug or want to add some feature, open an issue on Gitlab or send me an email.
 In case you want to add some code, send me a diff, no pull requests, they will be ignored.
 Also, all requests regarding to support other platforms and/or other tools will be ignored.
 Again, this a Linux & GCC & Make project. That means no Mac/windows/Clang/CMake etc.
-
-
-
-
-
