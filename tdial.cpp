@@ -427,7 +427,11 @@ double TDial::polar_to_degr(double px, double py)
 
 void TDial::wheelEvent(QWheelEvent *wheel_event)
 {
+#if QT_VERSION >= 0x050C00
+  dial_grad += (wheel_event->angleDelta().y() / 8);
+#else
   dial_grad += (wheel_event->delta() / 8);
+#endif
 
   process_rotation();
 
