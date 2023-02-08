@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -135,7 +135,7 @@ void UI_Mainwindow::save_screenshot()
   if(devparms.modelserie == 1)
   {
     painter.begin(&screenXpm);
-#if QT_VERSION >= 0x050000
+#if (QT_VERSION >= 0x050000) && (QT_VERSION < 0x060000)
     painter.setRenderHint(QPainter::Qt4CompatiblePainting, true);
 #endif
 
@@ -150,7 +150,7 @@ void UI_Mainwindow::save_screenshot()
   else if(devparms.modelserie == 6)
     {
       painter.begin(&screenXpm);
-#if QT_VERSION >= 0x050000
+#if (QT_VERSION >= 0x050000) && (QT_VERSION < 0x060000)
       painter.setRenderHint(QPainter::Qt4CompatiblePainting, true);
 #endif
 

@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2010 - 2021 Teunis van Beelen
+* Copyright (C) 2010 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -142,7 +142,7 @@ void SignalCurve::paintEvent(QPaintEvent *)
   if(updates_enabled == false)  return;
 
   QPainter paint(this);
-#if QT_VERSION >= 0x050000
+#if (QT_VERSION >= 0x050000) && (QT_VERSION < 0x060000)
   paint.setRenderHint(QPainter::Qt4CompatiblePainting, true);
 #endif
 
@@ -172,7 +172,7 @@ int SignalCurve::print_to_image(const char *path)
   QPixmap pixmap(w_p, h_p);
 
   QPainter paint(&pixmap);
-#if QT_VERSION >= 0x050000
+#if (QT_VERSION >= 0x050000) && (QT_VERSION < 0x060000)
   paint.setRenderHint(QPainter::Qt4CompatiblePainting, true);
 #endif
 
@@ -1676,10 +1676,13 @@ void SignalCurve::mousePressEvent(QMouseEvent *press_event)
 
   w = width() - (2 * bordersize);
   h = height() - (2 * bordersize);
-
+#if QT_VERSION < 0x060000
   m_x = press_event->x() - bordersize;
   m_y = press_event->y() - bordersize;
-
+#else
+  m_x = press_event->position().x() - bordersize;
+  m_y = press_event->position().y() - bordersize;
+#endif
   if(devparms == NULL)
   {
     return;
@@ -1811,10 +1814,13 @@ void SignalCurve::mouseReleaseEvent(QMouseEvent *release_event)
 
   w = width() - (2 * bordersize);
   h = height() - (2 * bordersize);
-
+#if QT_VERSION < 0x060000
   mouse_x = release_event->x() - bordersize;
   mouse_y = release_event->y() - bordersize;
-
+#else
+  mouse_x = release_event->position().x() - bordersize;
+  mouse_y = release_event->position().y() - bordersize;
+#endif
   if(devparms == NULL)
   {
     return;
@@ -2075,10 +2081,13 @@ void SignalCurve::mouseMoveEvent(QMouseEvent *move_event)
   {
     return;
   }
-
+#if QT_VERSION < 0x060000
   mouse_x = move_event->x() - bordersize;
   mouse_y = move_event->y() - bordersize;
-
+#else
+  mouse_x = move_event->position().x() - bordersize;
+  mouse_y = move_event->position().y() - bordersize;
+#endif
   if(devparms == NULL)
   {
     return;

@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -779,7 +779,7 @@ void screen_thread::run()
 
       if(n < 0)
       {
-        printf("Can not read from device.\n");
+        printf("Can not read from device. (n is %i)\n", n);
         line = __LINE__;
         goto OUT_ERROR;
       }

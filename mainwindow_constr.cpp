@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -188,7 +188,11 @@ UI_Mainwindow::UI_Mainwindow()
   devicemenu->setTitle("Device");
   devicemenu->addAction("Connect",    this, SLOT(open_connection()));
   devicemenu->addAction("Disconnect", this, SLOT(close_connection()));
+#if QT_VERSION < 0x060000
   devicemenu->addAction("Exit",       this, SLOT(close()), QKeySequence::Quit);
+#else
+  devicemenu->addAction("Exit", QKeySequence::Quit, this, SLOT(close()));
+#endif
   menubar->addMenu(devicemenu);
 
   settingsmenu = new QMenu(this);
@@ -495,7 +499,11 @@ UI_Mainwindow::UI_Mainwindow()
   addAction(chan_scale_plus_act);
 
   chan_scale_plus_all_channels_act = new QAction(this);
+#if QT_VERSION < 0x060000
   chan_scale_plus_all_channels_act->setShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Minus));
+#else
+  chan_scale_plus_all_channels_act->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_Minus));
+#endif
   connect(chan_scale_plus_all_channels_act, SIGNAL(triggered()), this, SLOT(chan_scale_plus_all()));
   addAction(chan_scale_plus_all_channels_act);
 
@@ -505,7 +513,11 @@ UI_Mainwindow::UI_Mainwindow()
   addAction(chan_scale_minus_act);
 
   chan_scale_minus_all_channels_act = new QAction(this);
+#if QT_VERSION < 0x060000
   chan_scale_minus_all_channels_act->setShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Plus));
+#else
+  chan_scale_minus_all_channels_act->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_Plus));
+#endif
   connect(chan_scale_minus_all_channels_act, SIGNAL(triggered()), this, SLOT(chan_scale_minus_all()));
   addAction(chan_scale_minus_all_channels_act);
 
@@ -655,7 +667,7 @@ UI_Mainwindow::~UI_Mainwindow()
 {
   QSettings settings;
 
-  settings.setValue("path/savedir", recent_savedir);
+  settings.setValue("path/savedir", QString(recent_savedir));
 
   delete scrn_thread;
   delete appfont;

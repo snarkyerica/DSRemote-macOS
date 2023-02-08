@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -35,7 +35,7 @@
 
 
 #define PROGRAM_NAME          "DSRemote"
-#define PROGRAM_VERSION       "0.37_2105301226"
+#define PROGRAM_VERSION       "0.38_2302082035"
 
 #define MAX_PATHLEN            (1024)
 

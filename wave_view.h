@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2016 - 2021 Teunis van Beelen
+* Copyright (C) 2016 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -31,16 +31,7 @@
 #define WAVECURVE_H
 
 
-#include <QtGlobal>
-#include <QWidget>
-#include <QMouseEvent>
-#include <QPainter>
-#include <QPainterPath>
-#include <QPushButton>
-#include <QPen>
-#include <QString>
-#include <QStringList>
-#include <QFont>
+#include "qt_headers.h"
 
 #include <stdio.h>
 #include <stdlib.h>

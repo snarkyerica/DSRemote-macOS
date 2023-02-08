@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2009 - 2021 Teunis van Beelen
+* Copyright (C) 2009 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -45,8 +45,11 @@ extern "C" {
 void remove_trailing_spaces(char *);
 void remove_leading_spaces(char *);
 void trim_spaces(char *);
+/* removes trailing zero's from one or more occurrences of a decimal fraction in a string */
 void remove_trailing_zeros(char *);
 void convert_trailing_zeros_to_spaces(char *);
+void remove_leading_chars(char *, int);
+void remove_trailing_chars(char *, int);
 
 /* Inserts a copy of substr into str. The substring is the portion of substr that begins at */
 /* the character position subpos and spans sublen characters (or until the end of substr */
@@ -59,12 +62,31 @@ void str_insert_substr(char *str, int pos, int len, const char *substr, int subp
 /* Returns the number of substrings replaced. */
 int str_replace_substr(char *str, int len, int n, const char *dest_substr, const char *src_substr);
 
+/* converts non-readable non-ascii characters in "<0xhh>" */
+/* arguments: destination string, source string, maximum destination length including the terminating null byte */
+int convert_non_ascii_to_hex(char *,  const char *, int);
+
 void remove_extension_from_filename(char *);  /* removes extension including the dot */
 int get_filename_from_path(char *dest, const char *src, int size);  /* size is size of destination, returns length of filename */
 int get_directory_from_path(char *dest, const char *src, int size);  /* size is size of destination, returns length of directory */
+void get_relative_path_from_absolut_paths(char *dest, const char *src1, const char *src2, int size);  /* size is size of destination, dest points to src2 relative to src1 */
+void sanitize_path(char *path);  /* removes double dot entries */
+void sanitize_ascii(char *);  /* replaces all non-ascii characters with a dot */
+/* replaces all control chars (decimal values < 32 and decimal value == 127 (DEL)) */
+/* works also with UTF-8 and Latin-1 */
+void str_replace_ctrl_chars(char *, char);
+void ascii_toupper(char *);
 void latin1_to_ascii(char *, int);
 void latin1_to_utf8(char *, int);
 void utf8_to_latin1(char *);
+int utf8_strlen(const char *);  /* returns the number of utf8 characters in the string */
+int utf8_idx(const char *, int);  /* returns the byte offset of the nth utf8 character */
+/* limits the length in bytes of the string while avoiding creating an illegal utf8 character at the end of the string */
+/* returns the new byte length */
+int utf8_set_byte_len(char *, int);
+/* limits the length in utf8 chars of the string */
+/* returns the new utf8 char length */
+int utf8_set_char_len(char *, int);
 int antoi(const char *, int);
 int atoi_nonlocalized(const char *);
 double atof_nonlocalized(const char *);
@@ -85,8 +107,8 @@ int fprint_int_number_nonlocalized(FILE *, int, int, int);
 int fprint_ll_number_nonlocalized(FILE *, long long, int, int);
 
 /* returns 1 in case the string is not a number */
-int is_integer_number(char *);
-int is_number(char *);
+int is_integer_number(const char *);
+int is_number(const char *);
 
 int round_125_cat(double);  /* returns 10, 20 or 50, depending on the value */
 
@@ -110,6 +132,9 @@ int strtoipaddr(unsigned int *, const char *);  /* convert a string "192.168.1.1
 int dblcmp(double, double);  /* returns 0 when equal */
 
 int base64_dec(const void *, void *, int);
+
+int t_gcd(int, int);  /* returns greatest common divisor */
+int t_lcm(int, int);  /* returns least common multiple */
 
 /* sz is size of destination, returns length of string in dest.
  * This is different than the official BSD implementation!

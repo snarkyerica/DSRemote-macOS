@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2017 - 2021 Teunis van Beelen
+* Copyright (C) 2017 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -30,16 +30,7 @@
 #define UI_PLAYBACK_DIALOG_H
 
 
-#include <QtGlobal>
-#include <QApplication>
-#include <QObject>
-#include <QWidget>
-#include <QDialog>
-#include <QLabel>
-#include <QSpinBox>
-#include <QDoubleSpinBox>
-#include <QTimer>
-#include <QMessageBox>
+#include "qt_headers.h"
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -277,17 +277,17 @@ void UI_settings_window::applyButtonClicked()
     mainwindow->devparms.connectiontype = 1;
   }
 
-  settings.setValue("connection/device", dev_str);
+  settings.setValue("connection/device", QString(dev_str));
 
   snprintf(dev_str, 256, "%i.%i.%i.%i",
           ipSpinbox1->value(), ipSpinbox2->value(), ipSpinbox3->value(), ipSpinbox4->value());
 
-  settings.setValue("connection/ip", dev_str);
+  settings.setValue("connection/ip", QString(dev_str));
 
   strncpy(mainwindow->devparms.hostname, HostLineEdit->text().toLatin1().data(), 63);
   mainwindow->devparms.hostname[63] = 0;
 
-  settings.setValue("connection/hostname", mainwindow->devparms.hostname);
+  settings.setValue("connection/hostname", QString(mainwindow->devparms.hostname));
 
   if(invScrShtCheckbox->checkState() == Qt::Checked)
   {

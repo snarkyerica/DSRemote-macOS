@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -30,43 +30,6 @@
 #define UI_VIEW_MAINFORM_H
 
 
-#include <QtGlobal>
-#include <QApplication>
-#include <QObject>
-#include <QtGui>
-#include <QWidget>
-#include <QMainWindow>
-#include <QMenuBar>
-#include <QMenu>
-#include <QFont>
-#include <QToolBar>
-#include <QStatusBar>
-#include <QLabel>
-#include <QFileDialog>
-#include <QAction>
-#include <QActionGroup>
-#include <QImage>
-#include <QSplashScreen>
-#include <QTimer>
-#include <QDesktopServices>
-#include <QUrl>
-#include <QLibrary>
-#include <QString>
-#include <QVBoxLayout>
-#include <QList>
-#include <QDockWidget>
-#include <QPalette>
-#include <QGroupBox>
-#include <QMessageBox>
-#include <QPoint>
-#include <QDial>
-#include <QSettings>
-#include <QProcess>
-#include <QProgressDialog>
-#include <QKeySequence>
-#include <QEventLoop>
-#include <QRect>
-#include <QPixmap>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -78,6 +41,7 @@
 #include <unistd.h>
 #include <pthread.h>
 
+#include "qt_headers.h"
 #include "global.h"
 #include "about_dialog.h"
 #include "utils.h"

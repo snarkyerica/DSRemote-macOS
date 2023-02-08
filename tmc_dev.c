@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -238,7 +238,7 @@ int tmcdev_read(struct tmcdev *dev)
 
     dev->buf[0] = 0;
 
-    return -1;
+    return -2;
   }
 
   dev->hdrbuf[size] = 0;
@@ -265,7 +265,7 @@ int tmcdev_read(struct tmcdev *dev)
   {
     blockhdr[31] = 0;
 
-    return -1;
+    return -3;
   }
 
   blockhdr[len + 2] = 0;
@@ -279,7 +279,7 @@ int tmcdev_read(struct tmcdev *dev)
     {
       blockhdr[31] = 0;
 
-      return -1;
+      return -4;
     }
 
     size += read_size;
@@ -291,7 +291,7 @@ int tmcdev_read(struct tmcdev *dev)
   {
     blockhdr[31] = 0;
 
-    return -1;
+    return -5;
   }
 
   dev->buf = dev->hdrbuf + len + 2;

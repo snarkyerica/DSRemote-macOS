@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2009 - 2021 Teunis van Beelen
+* Copyright (C) 2009 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -34,8 +34,134 @@
 #define FLT_ROUNDS 1
 
 
+/* size is size of destination */
+/* dest points to src2 relative to src1 */
+void get_relative_path_from_absolut_paths(char *dest, const char *src1, const char *src2, int size)
+{
+  int i, len1, len2, len_min, delim_shared=0, delim1=0, delim2=0;
 
-  /* removes extension including the dot */
+  if(size < 1) return;
+
+  dest[0] = 0;
+
+  len1 = strlen(src1);
+
+  len2 = strlen(src2);
+
+  len_min = (len1 > len2) ? len2 : len1;
+
+  if(!len_min)  return;
+
+  for(i=0; i<len_min; i++)
+  {
+    if(src1[i] != src2[i])
+    {
+      break;
+    }
+    else
+    {
+      if((src1[i] == '/') || (src1[i] == '\\'))
+      {
+        delim_shared++;
+      }
+    }
+  }
+
+  for(; i<len1; i++)
+  {
+    if((src1[i] == '/') || (src1[i] == '\\'))
+    {
+      delim1++;
+    }
+  }
+
+  for(i=0; i<delim1; i++)
+  {
+    strlcat(dest, "../", size);
+  }
+
+  for(i=0; i<len2; i++)
+  {
+    if((src2[i] == '/') || (src2[i] == '\\'))
+    {
+      delim2++;
+
+      if(delim2 == delim_shared)
+      {
+        i++;
+        break;
+      }
+    }
+  }
+
+  strlcat(dest, src2 + i, size);
+}
+
+
+/* removes double dot entries */
+void sanitize_path(char *path)
+{
+  int i, j, len, cut=0, delim_pos1=-1, delim_pos2=-1, delim_pos3=-1, dots=0, letter=0, dir=0;
+
+  if(path == NULL)  return;
+
+  len = strlen(path);
+  if(len < 2)  return;
+
+  for(i=0; i<len; i++)
+  {
+    if(path[i] == '.')
+    {
+      dots++;
+    }
+    else if((path[i] == '/') || (path[i] == '\\'))
+      {
+        if(letter)
+        {
+          letter = 0;
+
+          dir = 1;
+        }
+
+        delim_pos1 = delim_pos2;
+
+        delim_pos2 = delim_pos3;
+
+        delim_pos3 = i;
+
+        if((dots == 2) && (delim_pos1 >= 0) && dir)
+        {
+          cut = delim_pos3 - delim_pos1;
+
+          for(j=delim_pos1; j<(len-cut+1); j++)
+          {
+            path[j] = path[j+cut];
+          }
+
+          len = strlen(path);
+
+          i = 0;
+
+          dots = 0;
+
+          dir = 0;
+
+          continue;
+        }
+
+        dots = 0;
+      }
+      else
+      {
+        dots = 3;
+
+        letter++;
+      }
+  }
+}
+
+
+/* removes extension including the dot */
 void remove_extension_from_filename(char *str)
 {
   int i, len;
@@ -64,7 +190,7 @@ void remove_extension_from_filename(char *str)
 }
 
 
-  /* sz is size of destination, returns length of filename */
+/* sz is size of destination, returns length of filename */
 int get_filename_from_path(char *dest, const char *src, int sz)
 {
   int i, len;
@@ -115,8 +241,8 @@ int get_filename_from_path(char *dest, const char *src, int sz)
 }
 
 
-  /* sz is size of destination, returns length of directory */
-  /* last character of destination is not a slash! */
+/* sz is size of destination, returns length of directory */
+/* last character of destination is not a slash! */
 int get_directory_from_path(char *dest, const char *src, int sz)
 {
   int i, len;
@@ -200,6 +326,8 @@ void remove_trailing_spaces(char *str)
 
   len = strlen(str);
 
+  if(!len) return;
+
   for(i=(len-1); i>=0; i--)
   {
     if(str[i]!=' ')  break;
@@ -265,6 +393,8 @@ void trim_spaces(char *str)
 
   len = strlen(str);
 
+  if(!len) return;
+
   for(i=(len-1); i>=0; i--)
   {
     if(str[i]!=' ')  break;
@@ -274,7 +404,7 @@ void trim_spaces(char *str)
 }
 
 
-
+/* removes trailing zero's from one or more occurrences of a decimal fraction in a string */
 void remove_trailing_zeros(char *str)
 {
   int i, j,
@@ -448,13 +578,14 @@ void utf8_to_latin1(char *utf8_str)
 }
 
 
-
+/* max string length: 4096 characters! */
 void latin1_to_utf8(char *latin1_str, int len)
 {
   int i, j;
 
-  unsigned char *str, tmp_str[1024];
+  unsigned char *str, tmp_str[4096];
 
+  if(len > 4096)  len = 4096;
 
   str = (unsigned char *)latin1_str;
 
@@ -498,10 +629,25 @@ void latin1_to_utf8(char *latin1_str, int len)
 }
 
 
+void sanitize_ascii(char *s)
+{
+  for( ; *s; s++)
+  {
+    if((*s < 32) || (*s > 126))
+    {
+      *s = '.';
+    }
+  }
+}
+
 
 void latin1_to_ascii(char *str, int len)
 {
+  /* ISO 8859-1 except for characters 0x80 to 0x9f which are taken from the extension CP-1252 */
+
   int i, value;
+
+  const char conv_table[]=".E.,F\".++^.S<E.Z..`\'\"\".--~.s>e.zY.i....|....<...-....\'u.....>...?AAAAAAECEEEEIIIIDNOOOOOxOUUUUYtsaaaaaaeceeeeiiiidnooooo:0uuuuyty";
 
   for(i=0; i<len; i++)
   {
@@ -512,200 +658,14 @@ void latin1_to_ascii(char *str, int len)
       continue;
     }
 
-    switch(value)
+    if(value < 32)
     {
-      case 128 : str[i] = 'E';  break;
+      str[i] = '.';
 
-      case 130 : str[i] = ',';  break;
-
-      case 131 : str[i] = 'F';  break;
-
-      case 132 : str[i] = '\"';  break;
-
-      case 133 : str[i] = '.';  break;
-
-      case 134 : str[i] = '+';  break;
-
-      case 135 : str[i] = '+';  break;
-
-      case 136 : str[i] = '^';  break;
-
-      case 137 : str[i] = 'm';  break;
-
-      case 138 : str[i] = 'S';  break;
-
-      case 139 : str[i] = '<';  break;
-
-      case 140 : str[i] = 'E';  break;
-
-      case 142 : str[i] = 'Z';  break;
-
-      case 145 : str[i] = '`';  break;
-
-      case 146 : str[i] = '\'';  break;
-
-      case 147 : str[i] = '\"';  break;
-
-      case 148 : str[i] = '\"';  break;
-
-      case 149 : str[i] = '.';  break;
-
-      case 150 : str[i] = '-';  break;
-
-      case 151 : str[i] = '-';  break;
-
-      case 152 : str[i] = '~';  break;
-
-      case 154 : str[i] = 's';  break;
-
-      case 155 : str[i] = '>';  break;
-
-      case 156 : str[i] = 'e';  break;
-
-      case 158 : str[i] = 'z';  break;
-
-      case 159 : str[i] = 'Y';  break;
-
-      case 171 : str[i] = '<';  break;
-
-      case 180 : str[i] = '\'';  break;
-
-      case 181 : str[i] = 'u';  break;
-
-      case 187 : str[i] = '>';  break;
-
-      case 191 : str[i] = '\?';  break;
-
-      case 192 : str[i] = 'A';  break;
-
-      case 193 : str[i] = 'A';  break;
-
-      case 194 : str[i] = 'A';  break;
-
-      case 195 : str[i] = 'A';  break;
-
-      case 196 : str[i] = 'A';  break;
-
-      case 197 : str[i] = 'A';  break;
-
-      case 198 : str[i] = 'E';  break;
-
-      case 199 : str[i] = 'C';  break;
-
-      case 200 : str[i] = 'E';  break;
-
-      case 201 : str[i] = 'E';  break;
-
-      case 202 : str[i] = 'E';  break;
-
-      case 203 : str[i] = 'E';  break;
-
-      case 204 : str[i] = 'I';  break;
-
-      case 205 : str[i] = 'I';  break;
-
-      case 206 : str[i] = 'I';  break;
-
-      case 207 : str[i] = 'I';  break;
-
-      case 208 : str[i] = 'D';  break;
-
-      case 209 : str[i] = 'N';  break;
-
-      case 210 : str[i] = 'O';  break;
-
-      case 211 : str[i] = 'O';  break;
-
-      case 212 : str[i] = 'O';  break;
-
-      case 213 : str[i] = 'O';  break;
-
-      case 214 : str[i] = 'O';  break;
-
-      case 215 : str[i] = 'x';  break;
-
-      case 216 : str[i] = 'O';  break;
-
-      case 217 : str[i] = 'U';  break;
-
-      case 218 : str[i] = 'U';  break;
-
-      case 219 : str[i] = 'U';  break;
-
-      case 220 : str[i] = 'U';  break;
-
-      case 221 : str[i] = 'Y';  break;
-
-      case 222 : str[i] = 'I';  break;
-
-      case 223 : str[i] = 's';  break;
-
-      case 224 : str[i] = 'a';  break;
-
-      case 225 : str[i] = 'a';  break;
-
-      case 226 : str[i] = 'a';  break;
-
-      case 227 : str[i] = 'a';  break;
-
-      case 228 : str[i] = 'a';  break;
-
-      case 229 : str[i] = 'a';  break;
-
-      case 230 : str[i] = 'e';  break;
-
-      case 231 : str[i] = 'c';  break;
-
-      case 232 : str[i] = 'e';  break;
-
-      case 233 : str[i] = 'e';  break;
-
-      case 234 : str[i] = 'e';  break;
-
-      case 235 : str[i] = 'e';  break;
-
-      case 236 : str[i] = 'i';  break;
-
-      case 237 : str[i] = 'i';  break;
-
-      case 238 : str[i] = 'i';  break;
-
-      case 239 : str[i] = 'i';  break;
-
-      case 240 : str[i] = 'd';  break;
-
-      case 241 : str[i] = 'n';  break;
-
-      case 242 : str[i] = 'o';  break;
-
-      case 243 : str[i] = 'o';  break;
-
-      case 244 : str[i] = 'o';  break;
-
-      case 245 : str[i] = 'o';  break;
-
-      case 246 : str[i] = 'o';  break;
-
-      case 247 : str[i] = '-';  break;
-
-      case 248 : str[i] = '0';  break;
-
-      case 249 : str[i] = 'u';  break;
-
-      case 250 : str[i] = 'u';  break;
-
-      case 251 : str[i] = 'u';  break;
-
-      case 252 : str[i] = 'u';  break;
-
-      case 253 : str[i] = 'y';  break;
-
-      case 254 : str[i] = 't';  break;
-
-      case 255 : str[i] = 'y';  break;
-
-      default  : str[i] = ' ';  break;
+      continue;
     }
+
+    str[i] = conv_table[value - 127];
   }
 }
 
@@ -806,6 +766,24 @@ int utf8_idx(const char *str, int idx)
   }
 
   return 0;
+}
+
+
+void str_replace_ctrl_chars(char *str, char c)
+{
+  int i;
+
+  if(str == NULL)  return;
+
+  for(i=0; ; i++)
+  {
+    if(str[i] == 0)  return;
+
+    if((((unsigned char *)str)[i] < 32) || (((unsigned char *)str)[i] == 127))
+    {
+      str[i] = c;
+    }
+  }
 }
 
 
@@ -1384,7 +1362,7 @@ long long atoll_x(const char *str, int dimension)
 
 
 
-int is_integer_number(char *str)
+int is_integer_number(const char *str)
 {
   int i=0, l, hasspace = 0, hassign=0, digit=0;
 
@@ -1430,10 +1408,7 @@ int is_integer_number(char *str)
 }
 
 
-
-
-
-int is_number(char *str)
+int is_number(const char *str)
 {
   int i=0, len, hasspace=0, hassign=0, digit=0, hasdot=0, hasexp=0;
 
@@ -1935,7 +1910,7 @@ double round_down_step125(double val, double *ratio)
 
 int convert_to_metric_suffix(char *dest, double value, int decimals, int sz)
 {
-  double ltmp;
+  double ftmp;
 
   char suffix=' ';
 
@@ -1943,103 +1918,67 @@ int convert_to_metric_suffix(char *dest, double value, int decimals, int sz)
 
   if(value < 0)
   {
-      ltmp = value * -1;
+      ftmp = value * -1;
   }
   else
   {
-      ltmp = value;
+      ftmp = value;
   }
 
-  if(ltmp > 0.999999e12 && ltmp < 0.999999e15)
+  if(ftmp > 0.999999e12 && ftmp < 0.999999e15)
   {
-      ltmp = ltmp / 1e12;
+      ftmp = ftmp / 1e12;
 
       suffix = 'T';
   }
-  else if(ltmp > 0.999999e9)
+  else if(ftmp > 0.999999e9)
     {
-        ltmp = ltmp / 1e9;
+        ftmp = ftmp / 1e9;
 
         suffix = 'G';
     }
-    else if(ltmp > 0.999999e6)
+    else if(ftmp > 0.999999e6)
       {
-          ltmp = ltmp / 1e6;
+          ftmp = ftmp / 1e6;
 
           suffix = 'M';
       }
-      else if(ltmp > 0.999999e3)
+      else if(ftmp > 0.999999e3)
         {
-          ltmp /= 1e3;
+          ftmp /= 1e3;
 
           suffix = 'K';
         }
-        else if(ltmp > 0.999999e-3 && ltmp < 0.999999)
+        else if(ftmp > 0.999999e-3 && ftmp < 0.999999)
           {
-            ltmp *= 1e3;
+            ftmp *= 1e3;
 
             suffix = 'm';
           }
-          else if( ltmp > 0.999999e-6 && ltmp < 0.999999e-3)
+          else if( ftmp > 0.999999e-6 && ftmp < 0.999999e-3)
             {
-              ltmp *= 1e6;
+              ftmp *= 1e6;
 
               suffix = 'u';
             }
-            else if(ltmp > 0.999999e-9 && ltmp < 0.999999e-6)
+            else if(ftmp > 0.999999e-9 && ftmp < 0.999999e-6)
               {
-                ltmp *= 1e9;
+                ftmp *= 1e9;
 
                 suffix = 'n';
               }
-              else if(ltmp > 0.999999e-12 && ltmp < 0.999999e-9)
+              else if(ftmp > 0.999999e-12 && ftmp < 0.999999e-9)
                 {
-                  ltmp *= 1e12;
+                  ftmp *= 1e12;
 
                   suffix = 'p';
                 }
 
-  if(value >= 0)
-  {
-    switch(decimals)
-    {
-      case 0: return snprintf(dest, sz, "%.0f%c", ltmp, suffix);
-              break;
-      case 1: return snprintf(dest, sz, "%.1f%c", ltmp, suffix);
-              break;
-      case 2: return snprintf(dest, sz, "%.2f%c", ltmp, suffix);
-              break;
-      case 3: return snprintf(dest, sz, "%.3f%c", ltmp, suffix);
-              break;
-      case 4: return snprintf(dest, sz, "%.4f%c", ltmp, suffix);
-              break;
-      case 5: return snprintf(dest, sz, "%.5f%c", ltmp, suffix);
-              break;
-      case 6: return snprintf(dest, sz, "%.6f%c", ltmp, suffix);
-              break;
-      default: return snprintf(dest, sz, "%.3f%c", ltmp, suffix);
-              break;
-    }
-  }
+  if((decimals < 0) || (decimals > 6))  decimals = 3;
 
-  if(value < 0)
-  {
-    switch(decimals)
-    {
-      case 0: return snprintf(dest, sz, "%.0f%c", ltmp * -1, suffix);
-              break;
-      case 1: return snprintf(dest, sz, "%.1f%c", ltmp * -1, suffix);
-              break;
-      case 2: return snprintf(dest, sz, "%.2f%c", ltmp * -1, suffix);
-              break;
-      default: return snprintf(dest, sz, "%.3f%c", ltmp * -1, suffix);
-              break;
-    }
-  }
+  if(value < 0)  ftmp *=-1;
 
-  strlcpy(dest, "0", sz);
-
-  return 1;
+  return snprintf(dest, sz, "%.*f%c", decimals, ftmp, suffix);
 }
 
 
@@ -2097,11 +2036,11 @@ int dblcmp(double val1, double val2)
 {
   long double diff = (long double)val1 - (long double)val2;
 
-  if(diff > 1e-13)
+  if(diff > 1e-13l)
   {
     return 1;
   }
-  else if(-diff > 1e-13)
+  else if(-diff > 1e-13l)
     {
       return -1;
     }
@@ -2317,6 +2256,53 @@ int strlcat(char *dst, const char *src, int sz)
 #endif
 
 
+void remove_leading_chars(char *str, int n)
+{
+  int i, len;
+
+  if(str == NULL)  return;
+
+  if(n < 1)  return;
+
+  len = strlen(str);
+
+  if(n >= len)
+  {
+    str[0] = 0;
+
+    return;
+  }
+
+  for(i=0; i<(len-n); i++)
+  {
+    str[i] = str[i + n];
+  }
+
+  str[i] = 0;
+}
+
+
+void remove_trailing_chars(char *str, int n)
+{
+  int len;
+
+  if(str == NULL)  return;
+
+  if(n < 1)  return;
+
+  len = strlen(str);
+
+  if(n >= len)
+  {
+    str[0] = 0;
+
+    return;
+  }
+
+  str[len - n] = 0;
+}
+
+
 void str_insert_substr(char *str, int pos, int len, const char *substr, int subpos, int sublen)
 {
   int i, slen;
@@ -2456,10 +2442,47 @@ int convert_non_ascii_to_hex(char *dest,  const char *src, int destlen)
 }
 
 
+/* returns greatest common divisor */
+int t_gcd(int a, int b)
+{
+  if(!a)
+  {
+    return b;
+  }
+
+  while(b)
+  {
+    if(a > b)
+    {
+      a = a - b;
+    }
+    else
+    {
+      b = b - a;
+    }
+  }
+
+  return a;
+}
 
 
+/* returns least common multiple */
+int t_lcm(int a, int b)
+{
+  return ((a * b) / t_gcd(a, b));
+}
 
 
+void ascii_toupper(char *p)
+{
+  for(; *p; p++)
+  {
+    if((*p >= 'a') && (*p <= 'z'))
+    {
+      *p -= 32;
+    }
+  }
+}
 
 
 
