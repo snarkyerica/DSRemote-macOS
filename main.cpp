@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
   if((sizeof(char)      != 1) ||
      (sizeof(short)     != 2) ||
      (sizeof(int)       != 4) ||
-     (sizeof(long)      != 8) ||
      (sizeof(long long) != 8) ||
      (sizeof(float)     != 4) ||
      (sizeof(double)    != 8))
@@ -41,6 +40,20 @@ int main(int argc, char *argv[])
     fprintf(stderr, "Wrong compiler or platform!\n");
     return EXIT_FAILURE;
   }
+
+#if defined(__LP64__)
+  if(sizeof(long) != 8)
+  {
+    fprintf(stderr, "Wrong compiler or platform!\n");
+    return EXIT_FAILURE;
+  }
+#else
+  if(sizeof(long) != 4)
+  {
+    fprintf(stderr, "Wrong compiler or platform!\n");
+    return EXIT_FAILURE;
+  }
+#endif
 
   /* check endianness! */
   byte_order_test_var.one = 0x03020100;
