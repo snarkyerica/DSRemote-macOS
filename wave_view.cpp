@@ -306,11 +306,11 @@ void WaveCurve::paintEvent(QPaintEvent *)
         continue;
       }
 
-      v_sense = ((double)curve_h / ((devparms->chanscale[chn] * devparms->vertdivisions) / devparms->yinc[chn])) / -32.0;
+      v_sense = ((double)curve_h / ((devparms->chanscale[chn] * devparms->vertdivisions) / devparms->yinc[chn])) / -1.0;
 
       h_trace_offset = curve_h / 2;
 
-      h_trace_offset += (devparms->yor[chn] * v_sense * 32.0);
+      h_trace_offset += devparms->yor[chn] * v_sense;
 
       painter->setPen(QPen(QBrush(SignalColor[chn], Qt::SolidPattern), tracewidth, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
 
