@@ -90,10 +90,10 @@ UI_Mainwindow::UI_Mainwindow()
     devparms.chanscale[i] = 1;
   }
 
-  strlcpy(devparms.chanunitstr[0], "V", 1024);
-  strlcpy(devparms.chanunitstr[1], "W", 1024);
-  strlcpy(devparms.chanunitstr[2], "A", 1024);
-  strlcpy(devparms.chanunitstr[3], "U", 1024);
+  strlcpy(devparms.chanunitstr[0], "V", 2);
+  strlcpy(devparms.chanunitstr[1], "W", 2);
+  strlcpy(devparms.chanunitstr[2], "A", 2);
+  strlcpy(devparms.chanunitstr[3], "U", 2);
 
   devparms.fftbuf_in = (double *)malloc(FFT_MAX_BUFSZ * sizeof(double));
 
