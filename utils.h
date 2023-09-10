@@ -148,6 +148,7 @@ int t_lcm(int, int);  /* returns least common multiple */
 #if defined(__APPLE__) || defined(__MACH__) || defined(__APPLE_CC__) || defined(__FreeBSD__) || defined(__HAIKU__) || ((__GLIBC__ >= 2) && (__GLIBC_MINOR__ >= 38)) || (__GLIBC__ >= 3)
 /* nothing here */
 #else
+#define HAS_NO_STRLC
 int strlcpy(char *, const char *, int);
 int strlcat(char *, const char *, int);
 #endif
