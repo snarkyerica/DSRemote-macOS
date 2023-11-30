@@ -1325,15 +1325,19 @@ void read_settings_thread::run()
               {
                 devparms->displaygrading = 50;
               }
-              else if(!strcmp(device->buf, "INF"))
+              else if(!strcmp(device->buf, "10"))
                 {
-                  devparms->displaygrading = 10000;
+                  devparms->displaygrading = 100;
                 }
-                else
-                {
-                  line = __LINE__;
-                  goto GDS_OUT_ERROR;
-                }
+                else if(!strcmp(device->buf, "INF"))
+                  {
+                    devparms->displaygrading = 10000;
+                  }
+                  else
+                  {
+                    line = __LINE__;
+                    goto GDS_OUT_ERROR;
+                  }
 
   usleep(TMC_GDS_DELAY);
 
