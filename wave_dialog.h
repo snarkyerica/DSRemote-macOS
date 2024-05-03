@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2016 - 2021 Teunis van Beelen
+* Copyright (C) 2016 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -33,13 +33,7 @@
 
 
 
-#include <QApplication>
-#include <QObject>
-#include <QDialog>
-#include <QGridLayout>
-#include <QSlider>
-#include <QMenuBar>
-#include <QMenu>
+#include "qt_headers.h"
 
 #include "mainwindow.h"
 #include "global.h"

@@ -2,11 +2,11 @@
 contains(QT_MAJOR_VERSION, 4) {
 
 LIST = 0 1 2 3 4 5 6
-for(a, LIST):contains(QT_MINOR_VERSION, $$a):error("This project needs Qt4 version >= 4.7.1 or Qt5 version >= 5.9.1")
+for(a, LIST):contains(QT_MINOR_VERSION, $$a):error("This project needs Qt4 version >= 4.7.1 or Qt5 version >= 5.9.1 or Qt6 version >= 6.4.1")
 
 contains(QT_MINOR_VERSION, 7) {
   LIST = 0
-  for(a, LIST):contains(QT_PATCH_VERSION, $$a):error("This project needs Qt4 version >= 4.7.1 or Qt5 version >= 5.9.1")
+  for(a, LIST):contains(QT_PATCH_VERSION, $$a):error("This project needs Qt4 version >= 4.7.1 or Qt5 version >= 5.9.1 or Qt6 version >= 6.4.1")
 }
 }
 
@@ -14,11 +14,23 @@ contains(QT_MINOR_VERSION, 7) {
 contains(QT_MAJOR_VERSION, 5) {
 
 LIST = 0 1 2 3 4 5 6 7 8
-for(a, LIST):contains(QT_MINOR_VERSION, $$a):error("This project needs Qt4 version >= 4.7.1 or Qt5 version >= 5.9.1")
+for(a, LIST):contains(QT_MINOR_VERSION, $$a):error("This project needs Qt4 version >= 4.7.1 or Qt5 version >= 5.9.1 or Qt6 version >= 6.4.1")
 
 contains(QT_MINOR_VERSION, 9) {
   LIST = 0
-  for(a, LIST):contains(QT_PATCH_VERSION, $$a):error("This project needs Qt4 version >= 4.7.1 or Qt5 version >= 5.9.1")
+  for(a, LIST):contains(QT_PATCH_VERSION, $$a):error("This project needs Qt4 version >= 4.7.1 or Qt5 version >= 5.9.1 or Qt6 version >= 6.4.1")
+}
+}
+
+
+contains(QT_MAJOR_VERSION, 6) {
+
+LIST = 0 1 2 3
+for(a, LIST):contains(QT_MINOR_VERSION, $$a):error("This project needs Qt4 version >= 4.7.1 or Qt5 version >= 5.9.1 or Qt6 version >= 6.4.1")
+
+contains(QT_MINOR_VERSION, 4) {
+  LIST = 0
+  for(a, LIST):contains(QT_PATCH_VERSION, $$a):error("This project needs Qt4 version >= 4.7.1 or Qt5 version >= 5.9.1 or Qt6 version >= 6.4.1")
 }
 }
 
@@ -36,11 +48,14 @@ CONFIG += largefile
 QT += widgets
 QT += network
 
-QMAKE_CXXFLAGS += -Wextra -Wshadow -Wformat-nonliteral -Wformat-security -Wtype-limits -Wfatal-errors
+QMAKE_CXXFLAGS += -Wextra -Wshadow -Wformat -Wformat-nonliteral -Wformat-security -Wtype-limits -Wfatal-errors -Wdeprecated-declarations
+
+QMAKE_CFLAGS += -Wall -Wextra -Wshadow -Wformat-nonliteral -Wformat-security -Wtype-limits -Wfatal-errors -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE
 
 OBJECTS_DIR = ./objects
 MOC_DIR = ./moc
 
+HEADERS += qt_headers.h
 HEADERS += global.h
 HEADERS += mainwindow.h
 HEADERS += about_dialog.h

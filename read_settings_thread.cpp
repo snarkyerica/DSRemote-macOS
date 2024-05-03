@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2016 - 2021 Teunis van Beelen
+* Copyright (C) 2016 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -802,11 +802,39 @@ void read_settings_thread::run()
                     {
                       devparms->triggermode = 9;
                     }
-                    else
-                    {
-                      line = __LINE__;
-                      goto GDS_OUT_ERROR;
-                    }
+                    else if(!strcmp(device->buf, "WIND"))
+                      {
+                        devparms->triggermode = 10;
+                      }
+                      else if(!strcmp(device->buf, "RUNT"))
+                        {
+                          devparms->triggermode = 11;
+                        }
+                        else if(!strcmp(device->buf, "DUR"))
+                          {
+                            devparms->triggermode = 12;
+                          }
+                          else if(!strcmp(device->buf, "DEL"))
+                            {
+                              devparms->triggermode = 13;
+                            }
+                            else if(!strcmp(device->buf, "TIM"))
+                              {
+                                devparms->triggermode = 14;
+                              }
+                              else if(!strcmp(device->buf, "NEDG"))
+                                {
+                                  devparms->triggermode = 15;
+                                }
+                                else if(!strcmp(device->buf, "SHOL"))
+                                  {
+                                    devparms->triggermode = 16;
+                                  }
+                                  else
+                                  {
+                                    line = __LINE__;
+                                    goto GDS_OUT_ERROR;
+                                  }
 
   usleep(TMC_GDS_DELAY);
 
@@ -1297,15 +1325,19 @@ void read_settings_thread::run()
               {
                 devparms->displaygrading = 50;
               }
-              else if(!strcmp(device->buf, "INF"))
+              else if(!strcmp(device->buf, "10"))
                 {
-                  devparms->displaygrading = 10000;
+                  devparms->displaygrading = 100;
                 }
-                else
-                {
-                  line = __LINE__;
-                  goto GDS_OUT_ERROR;
-                }
+                else if(!strcmp(device->buf, "INF"))
+                  {
+                    devparms->displaygrading = 10000;
+                  }
+                  else
+                  {
+                    line = __LINE__;
+                    goto GDS_OUT_ERROR;
+                  }
 
   usleep(TMC_GDS_DELAY);
 

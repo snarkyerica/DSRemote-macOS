@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -85,7 +85,7 @@ void UI_Mainwindow::open_connection()
     {
       strlcpy(dev_str, "/dev/usbtmc0", 256);
 
-      settings.setValue("connection/device", dev_str);
+      settings.setValue("connection/device", QString(dev_str));
     }
 
     device = tmc_open_usb(dev_str);

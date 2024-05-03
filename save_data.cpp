@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -135,7 +135,7 @@ void UI_Mainwindow::save_screenshot()
   if(devparms.modelserie == 1)
   {
     painter.begin(&screenXpm);
-#if QT_VERSION >= 0x050000
+#if (QT_VERSION >= 0x050000) && (QT_VERSION < 0x060000)
     painter.setRenderHint(QPainter::Qt4CompatiblePainting, true);
 #endif
 
@@ -150,7 +150,7 @@ void UI_Mainwindow::save_screenshot()
   else if(devparms.modelserie == 6)
     {
       painter.begin(&screenXpm);
-#if QT_VERSION >= 0x050000
+#if (QT_VERSION >= 0x050000) && (QT_VERSION < 0x060000)
       painter.setRenderHint(QPainter::Qt4CompatiblePainting, true);
 #endif
 
@@ -337,7 +337,7 @@ void UI_Mainwindow::get_deep_memory_waveform(void)
 
     if(devparms.yinc[chn] < 1e-6)
     {
-      snprintf(str, 512, "Error, parameter \"YINC\" out of range: %e  line %i file %s", devparms.yinc[chn], __LINE__, __FILE__);
+      snprintf(str, 512, "Error, parameter \"YINC\" out of range for channel %i: %e  line %i file %s", chn, devparms.yinc[chn], __LINE__, __FILE__);
       goto OUT_ERROR;
     }
 
@@ -353,7 +353,7 @@ void UI_Mainwindow::get_deep_memory_waveform(void)
 
     if((yref[chn] < 1) || (yref[chn] > 255))
     {
-      snprintf(str, 512, "Error, parameter \"YREF\" out of range: %i  line %i file %s", yref[chn], __LINE__, __FILE__);
+      snprintf(str, 512, "Error, parameter \"YREF\" out of range for channel %i: %i  line %i file %s", chn, yref[chn], __LINE__, __FILE__);
       goto OUT_ERROR;
     }
 
@@ -367,11 +367,15 @@ void UI_Mainwindow::get_deep_memory_waveform(void)
 
     devparms.yor[chn] = atoi(device->buf);
 
-    if((devparms.yor[chn] < -255) || (devparms.yor[chn] > 255))
+    if((devparms.yor[chn] < -32000) || (devparms.yor[chn] > 32000))
     {
-      snprintf(str, 512, "Error, parameter \"YOR\" out of range: %i  line %i file %s", devparms.yor[chn], __LINE__, __FILE__);
+      snprintf(str, 512, "Error, parameter \"YOR\" out of range for channel %i: %i  line %i file %s", chn, devparms.yor[chn], __LINE__, __FILE__);
       goto OUT_ERROR;
     }
+
+//     printf("yinc[%i] : %f\n", chn, devparms.yinc[chn]);
+//     printf("yref[%i] : %i\n", chn, yref[chn]);
+//     printf("yor[%i]  : %i\n", chn, devparms.yor[chn]);
 
     empty_buf = 0;
 
@@ -452,7 +456,7 @@ void UI_Mainwindow::get_deep_memory_waveform(void)
           break;
         }
 
-        wavbuf[chn][bytes_rcvd + k] = ((int)(((unsigned char *)device->buf)[k]) - yref[chn] - devparms.yor[chn]) << 5;
+        wavbuf[chn][bytes_rcvd + k] = ((int)(((unsigned char *)device->buf)[k])) - yref[chn] - devparms.yor[chn];
       }
 
       bytes_rcvd += n;
@@ -714,14 +718,14 @@ void UI_Mainwindow::save_wave_inspector_buffer_to_edf(struct device_settings *d_
     edf_set_digital_minimum(hdl, j, -32768);
     if(d_parms->chanscale[chn] > 2)
     {
-      edf_set_physical_maximum(hdl, j, d_parms->yinc[chn] * 32767.0 / 32.0);
-      edf_set_physical_minimum(hdl, j, d_parms->yinc[chn] * -32768.0 / 32.0);
+      edf_set_physical_maximum(hdl, j, d_parms->yinc[chn] * 32767.0);
+      edf_set_physical_minimum(hdl, j, d_parms->yinc[chn] * -32768.0);
       edf_set_physical_dimension(hdl, j, "V");
     }
     else
     {
-      edf_set_physical_maximum(hdl, j, 1000.0 * d_parms->yinc[chn] * 32767.0 / 32.0);
-      edf_set_physical_minimum(hdl, j, 1000.0 * d_parms->yinc[chn] * -32768.0 / 32.0);
+      edf_set_physical_maximum(hdl, j, 1000.0 * d_parms->yinc[chn] * 32767.0);
+      edf_set_physical_minimum(hdl, j, 1000.0 * d_parms->yinc[chn] * -32768.0);
       edf_set_physical_dimension(hdl, j, "mV");
     }
     snprintf(str, 512, "CHAN%i", chn + 1);
@@ -943,7 +947,7 @@ void UI_Mainwindow::save_screen_waveform()
 
     if(devparms.yinc[chn] < 1e-6)
     {
-      snprintf(str, 512, "Error, parameter \"YINC\" out of range: %e  line %i file %s", devparms.yinc[chn], __LINE__, __FILE__);
+      snprintf(str, 512, "Error, parameter \"YINC\" out of range for channel %i: %e  line %i file %s", chn, devparms.yinc[chn], __LINE__, __FILE__);
       goto OUT_ERROR;
     }
 
@@ -959,7 +963,7 @@ void UI_Mainwindow::save_screen_waveform()
 
     if((yref[chn] < 1) || (yref[chn] > 255))
     {
-      snprintf(str, 512, "Error, parameter \"YREF\" out of range: %i  line %i file %s", yref[chn], __LINE__, __FILE__);
+      snprintf(str, 512, "Error, parameter \"YREF\" out of range for channel %i: %i  line %i file %s", chn, yref[chn], __LINE__, __FILE__);
       goto OUT_ERROR;
     }
 
@@ -975,7 +979,7 @@ void UI_Mainwindow::save_screen_waveform()
 
     if((devparms.yor[chn] < -255) || (devparms.yor[chn] > 255))
     {
-      snprintf(str, 512, "Error, parameter \"YOR\" out of range: %i  line %i file %s", devparms.yor[chn], __LINE__, __FILE__);
+      snprintf(str, 512, "Error, parameter \"YOR\" out of range for channel %i: %i  line %i file %s", chn, devparms.yor[chn], __LINE__, __FILE__);
       goto OUT_ERROR;
     }
 

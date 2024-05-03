@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2016 - 2021 Teunis van Beelen
+* Copyright (C) 2016 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -91,7 +91,7 @@ void WaveCurve::paintEvent(QPaintEvent *)
   }
 
   QPainter paint(this);
-#if QT_VERSION >= 0x050000
+#if (QT_VERSION >= 0x050000) && (QT_VERSION < 0x060000)
   paint.setRenderHint(QPainter::Qt4CompatiblePainting, true);
 #endif
 
@@ -306,11 +306,11 @@ void WaveCurve::paintEvent(QPaintEvent *)
         continue;
       }
 
-      v_sense = ((double)curve_h / ((devparms->chanscale[chn] * devparms->vertdivisions) / devparms->yinc[chn])) / -32.0;
+      v_sense = ((double)curve_h / ((devparms->chanscale[chn] * devparms->vertdivisions) / devparms->yinc[chn])) / -1.0;
 
       h_trace_offset = curve_h / 2;
 
-      h_trace_offset += (devparms->yor[chn] * v_sense * 32.0);
+      h_trace_offset += devparms->yor[chn] * v_sense;
 
       painter->setPen(QPen(QBrush(SignalColor[chn], Qt::SolidPattern), tracewidth, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
 
@@ -882,10 +882,13 @@ void WaveCurve::mouseReleaseEvent(QMouseEvent *release_event)
 {
   w = width() - (2 * bordersize);
   h = height() - (2 * bordersize);
-
+#if QT_VERSION < 0x060000
   mouse_x = release_event->x() - bordersize;
   mouse_y = release_event->y() - bordersize;
-
+#else
+  mouse_x = release_event->position().x() - bordersize;
+  mouse_y = release_event->position().y() - bordersize;
+#endif
   if(devparms == NULL)
   {
     return;
@@ -904,10 +907,13 @@ void WaveCurve::mouseMoveEvent(QMouseEvent *move_event)
   {
     return;
   }
-
+#if QT_VERSION < 0x060000
   mouse_x = move_event->x() - bordersize;
   mouse_y = move_event->y() - bordersize;
-
+#else
+  mouse_x = move_event->position().x() - bordersize;
+  mouse_y = move_event->position().y() - bordersize;
+#endif
   if(devparms == NULL)
   {
     return;

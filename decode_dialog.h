@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2016 - 2021 Teunis van Beelen
+* Copyright (C) 2016 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -30,16 +30,7 @@
 #define UI_DECODE_DIALOG_H
 
 
-#include <QtGlobal>
-#include <QApplication>
-#include <QObject>
-#include <QWidget>
-#include <QDialog>
-#include <QTabWidget>
-#include <QLabel>
-#include <QComboBox>
-#include <QSpinBox>
-#include <QDoubleSpinBox>
+#include "qt_headers.h"
 
 #include <stdio.h>
 #include <stdlib.h>

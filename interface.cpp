@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -4015,14 +4015,14 @@ void UI_Mainwindow::trigger_source_la_d15(void)
 
 void UI_Mainwindow::trigger_source_la(int src)
 {
-  char str[128]="";
+  char str[256]="";
 
   devparms.triggeredgesource = TRIG_SRC_LA_D0 + src;
 
-  snprintf(str, 512, "Trigger source D%i", src);
+  snprintf(str, 256, "Trigger source D%i", src);
   statusLabel->setText(str);
 
-  snprintf(str, 512, ":TRIG:EDG:SOUR D%i", src);
+  snprintf(str, 256, ":TRIG:EDG:SOUR D%i", src);
   set_cue_cmd(str);
 }
 

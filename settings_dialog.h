@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -33,17 +33,7 @@
 
 
 
-#include <QApplication>
-#include <QObject>
-#include <QDialog>
-#include <QLabel>
-#include <QPushButton>
-#include <QComboBox>
-#include <QCheckBox>
-#include <QSettings>
-#include <QRadioButton>
-#include <QSpinBox>
-#include <QLineEdit>
+#include "qt_headers.h"
 
 #include <stdio.h>
 #include <stdlib.h>

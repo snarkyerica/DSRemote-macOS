@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2014 - 2021 Teunis van Beelen
+* Copyright (C) 2014 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -43,7 +43,7 @@ TLed::TLed(QWidget *p) : QWidget(p)
 void TLed::paintEvent(QPaintEvent *)
 {
   QPainter paint(this);
-#if QT_VERSION >= 0x050000
+#if (QT_VERSION >= 0x050000) && (QT_VERSION < 0x060000)
   paint.setRenderHint(QPainter::Qt4CompatiblePainting, true);
 #endif
   drawLed(&paint);

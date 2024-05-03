@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2016 - 2021 Teunis van Beelen
+* Copyright (C) 2016 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -58,7 +58,7 @@ void TDial::paintEvent(QPaintEvent *)
   double r1, r2, r3, r4, dtmp;
 
   QPainter p(this);
-#if QT_VERSION >= 0x050000
+#if (QT_VERSION >= 0x050000) && (QT_VERSION < 0x060000)
   p.setRenderHint(QPainter::Qt4CompatiblePainting, true);
 #endif
 
@@ -162,8 +162,11 @@ void TDial::mousePressEvent(QMouseEvent *press_event)
   {
     slider_down = true;
     setMouseTracking(true);
-
+#if QT_VERSION < 0x060000
     mouse_grad_old = polar_to_degr(press_event->x() - (width() / 2), press_event->y() - (height() / 2));
+#else
+    mouse_grad_old = polar_to_degr(press_event->position().x() - (width() / 2), press_event->position().y() - (height() / 2));
+#endif
   }
 
   press_event->accept();
@@ -190,9 +193,11 @@ void TDial::mouseMoveEvent(QMouseEvent *move_event)
          gr_diff;
 
   if(slider_down == false)  return;
-
+#if QT_VERSION < 0x060000
   gr_new = polar_to_degr(move_event->x() - (width() / 2), move_event->y() - (height() / 2));
-
+#else
+  gr_new = polar_to_degr(move_event->position().x() - (width() / 2), move_event->position().y() - (height() / 2));
+#endif
   gr_diff = gr_new - mouse_grad_old;
 
   mouse_grad_old = gr_new;
@@ -427,7 +432,11 @@ double TDial::polar_to_degr(double px, double py)
 
 void TDial::wheelEvent(QWheelEvent *wheel_event)
 {
+#if QT_VERSION >= 0x050C00
+  dial_grad += (wheel_event->angleDelta().y() / 8);
+#else
   dial_grad += (wheel_event->delta() / 8);
+#endif
 
   process_rotation();
 

@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2015 - 2021 Teunis van Beelen
+* Copyright (C) 2015 - 2023 Teunis van Beelen
 *
 * Email: teuniz@protonmail.com
 *
@@ -35,7 +35,7 @@
 
 
 #define PROGRAM_NAME          "DSRemote"
-#define PROGRAM_VERSION       "0.37_2105301226"
+#define PROGRAM_VERSION       "0.41_2311302014"
 
 #define MAX_PATHLEN            (1024)
 
@@ -191,8 +191,8 @@ struct device_settings
   int triggeredgeslope;         // 0=POS, 1=NEG, 2= RFAL
   int triggeredgesource;        // 0=chan1, 1=chan2, 2=chan3, 3=chan4, 4=ext, 5=ext5, 6=acl, 7=D0, 8=D1, ... ,21=D14, 22=D15
   double triggerholdoff;        // min. is 16nSec or 100nSec depends on series
-  int triggermode;              // 0=edge, 1=pulse, 2=slope, 3=video, 4=pattern, 5=rs232,
-                                // 6=i2c, 7=spi, 8=can, 9=usb
+  int triggermode;              // 0=edge, 1=pulse, 2=slope, 3=video, 4=pattern, 5=rs232, 6=i2c, 7=spi, 8=can, 9=usb,
+                                // 10=wind, 11=runt, 12=duration, 13=delay, 14=timeout, 15=nedg, 16=shold
   int triggerstatus;            // 0=td, 1=wait, 2=run, 3=auto, 4=fin, 5=stop
   int triggersweep;             // 0=auto, 1=normal, 2=single
 
